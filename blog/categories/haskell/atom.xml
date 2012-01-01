@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Haskell | Norm 2782]]></title>
   <link href="http://norm2782.github.com/blog/categories/haskell/atom.xml" rel="self"/>
   <link href="http://norm2782.github.com/"/>
-  <updated>2012-01-01T22:56:03+01:00</updated>
+  <updated>2012-01-01T23:20:17+01:00</updated>
   <id>http://norm2782.github.com/</id>
   <author>
     <name><![CDATA[Jurriën Stutterheim]]></name>
@@ -28,6 +28,12 @@ errors, in a Heist template.</p>
 
 <p>Currently this post is secretly just here to allow me to play with
 Octopress.</p>
+
+<p>This post assumes you are familiar with the snaplet infrastructure and
+that you are more or less comfortable with defining routes and rendering
+templates with Heist. If this is not the case, you might want to read
+some of the tutorials on the Snap website first. This post also assumes
+that you know how to work with the digestive-functors library.</p>
 
 <p>Since I want the bulk of the code to be compilable (for when I figure
 out how to make Octopress and Literate Haskell play nicely together),
@@ -57,8 +63,6 @@ first some imports:</p>
 <span class='line-number'>22</span>
 <span class='line-number'>23</span>
 <span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
 </pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="cm">{-# LANGUAGE OverloadedStrings, TemplateHaskell #-}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="kr">module</span> <span class="nn">Site</span>
@@ -67,7 +71,6 @@ first some imports:</p>
 </span><span class='line'>
 </span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="kr">import</span>            <span class="nn">Control.Applicative</span>
 </span><span class='line'><span class="kr">import</span>            <span class="nn">Control.Monad.State</span>
-</span><span class='line'><span class="kr">import</span>            <span class="nn">Data.ByteString</span> <span class="p">(</span><span class="kt">ByteString</span><span class="p">)</span>
 </span><span class='line'><span class="kr">import</span>            <span class="nn">Data.Lens.Template</span>
 </span><span class='line'><span class="kr">import</span>            <span class="nn">Data.Maybe</span>
 </span><span class='line'><span class="kr">import</span>            <span class="nn">Data.Text</span> <span class="p">(</span><span class="kt">Text</span><span class="p">)</span>
@@ -75,7 +78,6 @@ first some imports:</p>
 </span><span class='line'><span class="kr">import</span>            <span class="nn">Snap.Core</span>
 </span><span class='line'><span class="kr">import</span>            <span class="nn">Snap.Snaplet</span>
 </span><span class='line'><span class="kr">import</span>            <span class="nn">Snap.Snaplet.Heist</span>
-</span><span class='line'><span class="kr">import</span>            <span class="nn">Snap.Util.FileServe</span>
 </span><span class='line'><span class="kr">import</span>            <span class="nn">Text.Blaze</span>
 </span><span class='line'><span class="kr">import</span>            <span class="nn">Text.Digestive</span>
 </span><span class='line'><span class="kr">import</span>            <span class="nn">Text.Digestive.Forms.Snap</span>
@@ -114,6 +116,25 @@ so we need to define a HasHeist instance for our App type as well.</p>
 </span><span class='line'>
 </span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="kr">instance</span> <span class="kt">HasHeist</span> <span class="kt">App</span> <span class="kr">where</span>
 </span><span class='line'>  <span class="n">heistLens</span> <span class="ow">=</span> <span class="n">subSnaplet</span> <span class="n">heist</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Having written all the boilerplate, we can get started with defining our form.
+In this case it's a simple login form with a plain textfield, a password field,
+a remember me checkbox and a login button.</p>
+
+<p>When the form has been validated, we want to store the form data in a custom
+datatype:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="kr">data</span> <span class="kt">LoginData</span>
+</span><span class='line'>  <span class="ow">=</span>  <span class="kt">LoginData</span>
+</span><span class='line'>  <span class="p">{</span>  <span class="n">emailAddress</span> <span class="ow">::</span> <span class="kt">Text</span>
+</span><span class='line'>  <span class="p">,</span>  <span class="n">password</span> <span class="ow">::</span> <span class="kt">Text</span>
+</span><span class='line'>  <span class="p">,</span>  <span class="n">rememberMe</span> <span class="ow">::</span> <span class="kt">Bool</span> <span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -172,49 +193,8 @@ so we need to define a HasHeist instance for our App type as well.</p>
 <span class='line-number'>54</span>
 <span class='line-number'>55</span>
 <span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">showForm</span> <span class="ow">::</span> <span class="kt">AttributeValue</span> <span class="ow">-&gt;</span> <span class="kt">FormHtml</span> <span class="p">(</span><span class="kt">HtmlM</span> <span class="n">a</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="kt">Html</span>
-</span><span class='line'><span class="nf">showForm</span> <span class="n">act</span> <span class="n">frm</span> <span class="ow">=</span>
-</span><span class='line'>  <span class="kr">let</span>  <span class="p">(</span><span class="n">formHtml&#39;</span><span class="p">,</span> <span class="n">enctype</span><span class="p">)</span> <span class="ow">=</span> <span class="n">renderFormHtml</span> <span class="n">frm</span>
-</span><span class='line'>  <span class="kr">in</span>   <span class="kt">H</span><span class="o">.</span><span class="n">form</span>  <span class="o">!</span> <span class="kt">A</span><span class="o">.</span><span class="n">enctype</span> <span class="p">(</span><span class="kt">H</span><span class="o">.</span><span class="n">toValue</span> <span class="o">$</span> <span class="n">show</span> <span class="n">enctype</span><span class="p">)</span> <span class="o">!</span> <span class="kt">A</span><span class="o">.</span><span class="n">method</span> <span class="s">&quot;post&quot;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span>           <span class="o">!</span> <span class="kt">A</span><span class="o">.</span><span class="n">action</span> <span class="n">act</span> <span class="o">$</span> <span class="n">formHtml&#39;</span> <span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">return</span> <span class="nb">()</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">formHandler</span> <span class="ow">::</span> <span class="kt">AppHandler</span> <span class="nb">()</span>
-</span><span class='line'><span class="nf">formHandler</span> <span class="ow">=</span> <span class="kr">do</span>
-</span><span class='line'>  <span class="n">res</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">-</span> <span class="n">eitherSnapForm</span> <span class="n">loginForm</span> <span class="s">&quot;login-form&quot;</span>
-</span><span class='line'>  <span class="kr">case</span> <span class="n">res</span> <span class="kr">of</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="kt">Left</span> <span class="n">form</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="kr">do</span>
-</span><span class='line'>  <span class="kr">let</span> <span class="n">nodes</span> <span class="ow">=</span> <span class="n">renderHtmlNodes</span> <span class="o">$</span> <span class="n">showForm</span> <span class="s">&quot;/&quot;</span> <span class="n">form</span>
-</span><span class='line'>  <span class="n">heistLocal</span> <span class="p">(</span><span class="n">bindSplice</span> <span class="s">&quot;form&quot;</span> <span class="p">(</span><span class="n">return</span> <span class="n">nodes</span><span class="p">))</span> <span class="o">$</span> <span class="n">render</span> <span class="s">&quot;form&quot;</span>
-</span><span class='line'><span class="kt">Right</span> <span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="kr">_</span><span class="p">)</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">writeBS</span> <span class="s">&quot;Success!&quot;</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">isEmail</span> <span class="ow">::</span> <span class="kt">Monad</span> <span class="n">m</span> <span class="ow">=&gt;</span> <span class="kt">Validator</span> <span class="n">m</span> <span class="kt">Html</span> <span class="kt">Text</span>
-</span><span class='line'><span class="nf">isEmail</span> <span class="ow">=</span> <span class="n">check</span> <span class="s">&quot;Invalid email address&quot;</span> <span class="p">((</span><span class="kt">T</span><span class="o">.</span><span class="n">singleton</span> <span class="sc">&#39;@&#39;</span><span class="p">)</span> <span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="kt">T</span><span class="o">.</span><span class="n">isInfixOf</span><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;</span><span class="p">)</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">longPwd</span> <span class="ow">::</span> <span class="kt">Monad</span> <span class="n">m</span> <span class="ow">=&gt;</span> <span class="kt">Validator</span> <span class="n">m</span> <span class="kt">Html</span> <span class="kt">Text</span>
-</span><span class='line'><span class="nf">longPwd</span>  <span class="ow">=</span>  <span class="n">check</span> <span class="s">&quot;Password needs to be at least six characters long&quot;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span>     <span class="o">$</span>  <span class="nf">\</span><span class="n">xs</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="kt">T</span><span class="o">.</span><span class="n">length</span> <span class="n">xs</span> <span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="ow">=</span> <span class="mi">6</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">loginForm</span> <span class="ow">::</span> <span class="kt">Form</span> <span class="kt">AppHandler</span> <span class="kt">SnapInput</span> <span class="kt">Html</span> <span class="p">(</span><span class="kt">FormHtml</span> <span class="kt">Html</span><span class="p">)</span> <span class="p">(</span><span class="kt">Text</span><span class="p">,</span> <span class="kt">Text</span><span class="p">,</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nb">()</span><span class="p">)</span>
-</span><span class='line'><span class="nf">loginForm</span> <span class="ow">=</span> <span class="p">(,,,)</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">loginForm</span> <span class="ow">::</span> <span class="kt">Form</span> <span class="kt">AppHandler</span> <span class="kt">SnapInput</span> <span class="kt">Html</span> <span class="p">(</span><span class="kt">FormHtml</span> <span class="kt">Html</span><span class="p">)</span> <span class="kt">LoginData</span>
+</span><span class='line'><span class="nf">loginForm</span> <span class="ow">=</span> <span class="nf">\</span><span class="n">e</span> <span class="n">p</span> <span class="n">r</span> <span class="kr">_</span> <span class="ow">-&gt;</span> <span class="kt">LoginData</span> <span class="n">e</span> <span class="n">p</span> <span class="n">r</span>
 </span><span class='line'>  <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">$&gt;</span>  <span class="n">mapViewHtml</span> <span class="kt">H</span><span class="o">.</span><span class="n">div</span> <span class="p">(</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span>   <span class="n">label</span>  <span class="s">&quot;Email address: &quot;</span>
@@ -240,10 +220,51 @@ so we need to define a HasHeist instance for our App type as well.</p>
 </span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span>   <span class="n">submit</span> <span class="s">&quot;Login&quot;</span><span class="p">)</span>
 </span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
 </span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">hr</span> <span class="o">/&gt;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">isEmail</span> <span class="ow">::</span> <span class="kt">Validator</span> <span class="kt">AppHandler</span> <span class="kt">Html</span> <span class="kt">Text</span>
+</span><span class='line'><span class="nf">isEmail</span> <span class="ow">=</span> <span class="n">check</span> <span class="s">&quot;Invalid email address&quot;</span> <span class="p">(</span><span class="kt">T</span><span class="o">.</span><span class="n">singleton</span> <span class="sc">&#39;@&#39;</span> <span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="kt">T</span><span class="o">.</span><span class="n">isInfixOf</span><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;</span><span class="p">)</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;--</span> <span class="o">|</span> <span class="kt">The</span> <span class="n">application</span> <span class="n">initializer</span><span class="o">.</span>
-</span><span class='line'><span class="nf">app</span> <span class="ow">::</span> <span class="kt">SnapletInit</span> <span class="kt">App</span> <span class="kt">App</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">longPwd</span> <span class="ow">::</span> <span class="kt">Validator</span> <span class="kt">AppHandler</span> <span class="kt">Html</span> <span class="kt">Text</span>
+</span><span class='line'><span class="nf">longPwd</span>  <span class="ow">=</span>  <span class="n">check</span> <span class="s">&quot;Password needs to be at least six characters long&quot;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span>     <span class="o">$</span>  <span class="nf">\</span><span class="n">xs</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="kt">T</span><span class="o">.</span><span class="n">length</span> <span class="n">xs</span> <span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="ow">=</span> <span class="mi">6</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">showForm</span> <span class="ow">::</span> <span class="kt">AttributeValue</span> <span class="ow">-&gt;</span> <span class="kt">FormHtml</span> <span class="p">(</span><span class="kt">HtmlM</span> <span class="n">a</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="kt">Html</span>
+</span><span class='line'><span class="nf">showForm</span> <span class="n">act</span> <span class="n">frm</span> <span class="ow">=</span>
+</span><span class='line'>  <span class="kr">let</span>  <span class="p">(</span><span class="n">formHtml&#39;</span><span class="p">,</span> <span class="n">enctype</span><span class="p">)</span> <span class="ow">=</span> <span class="n">renderFormHtml</span> <span class="n">frm</span>
+</span><span class='line'>  <span class="kr">in</span>   <span class="kt">H</span><span class="o">.</span><span class="n">form</span>  <span class="o">!</span> <span class="kt">A</span><span class="o">.</span><span class="n">enctype</span> <span class="p">(</span><span class="kt">H</span><span class="o">.</span><span class="n">toValue</span> <span class="o">$</span> <span class="n">show</span> <span class="n">enctype</span><span class="p">)</span> <span class="o">!</span> <span class="kt">A</span><span class="o">.</span><span class="n">method</span> <span class="s">&quot;post&quot;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span>           <span class="o">!</span> <span class="kt">A</span><span class="o">.</span><span class="n">action</span> <span class="n">act</span> <span class="o">$</span> <span class="n">formHtml&#39;</span> <span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">return</span> <span class="nb">()</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">formHandler</span> <span class="ow">::</span> <span class="kt">AppHandler</span> <span class="nb">()</span>
+</span><span class='line'><span class="nf">formHandler</span> <span class="ow">=</span> <span class="kr">do</span>
+</span><span class='line'>  <span class="n">res</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">-</span> <span class="n">eitherSnapForm</span> <span class="n">loginForm</span> <span class="s">&quot;login-form&quot;</span>
+</span><span class='line'>  <span class="kr">case</span> <span class="n">res</span> <span class="kr">of</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="kt">Left</span> <span class="n">form</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="kr">do</span>
+</span><span class='line'>  <span class="kr">let</span> <span class="n">nodes</span> <span class="ow">=</span> <span class="n">renderHtmlNodes</span> <span class="o">$</span> <span class="n">showForm</span> <span class="s">&quot;/&quot;</span> <span class="n">form</span>
+</span><span class='line'>  <span class="n">heistLocal</span> <span class="p">(</span><span class="n">bindSplice</span> <span class="s">&quot;form&quot;</span> <span class="p">(</span><span class="n">return</span> <span class="n">nodes</span><span class="p">))</span> <span class="o">$</span> <span class="n">render</span> <span class="s">&quot;form&quot;</span>
+</span><span class='line'><span class="kt">Right</span> <span class="p">(</span><span class="kt">LoginData</span> <span class="n">e</span> <span class="n">p</span> <span class="n">r</span><span class="p">)</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">writeBS</span> <span class="s">&quot;Success!&quot;</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Finally we define our initialiser, which sets up Heist and our routes.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="nf">app</span> <span class="ow">::</span> <span class="kt">SnapletInit</span> <span class="kt">App</span> <span class="kt">App</span>
 </span><span class='line'><span class="nf">app</span> <span class="ow">=</span> <span class="n">makeSnaplet</span> <span class="s">&quot;hdf&quot;</span>
 </span><span class='line'>  <span class="s">&quot;An example of digestive-functors and Heist playing nicely together.&quot;</span>
 </span><span class='line'>  <span class="kt">Nothing</span> <span class="o">$</span> <span class="kr">do</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
