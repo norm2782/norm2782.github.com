@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Heist | Norm 2782]]></title>
   <link href="http://norm2782.github.com/blog/categories/heist/atom.xml" rel="self"/>
   <link href="http://norm2782.github.com/"/>
-  <updated>2012-01-01T23:32:11+01:00</updated>
+  <updated>2012-01-01T23:42:22+01:00</updated>
   <id>http://norm2782.github.com/</id>
   <author>
     <name><![CDATA[Jurriën Stutterheim]]></name>
@@ -62,13 +62,9 @@ first some imports:</p>
 <span class='line-number'>21</span>
 <span class='line-number'>22</span>
 <span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
 </pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="cm">{-# LANGUAGE OverloadedStrings, TemplateHaskell #-}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="kr">module</span> <span class="nn">Site</span>
-</span><span class='line'>  <span class="p">(</span> <span class="nf">app</span>
-</span><span class='line'>  <span class="p">)</span> <span class="kr">where</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="kr">module</span> <span class="nn">Site</span> <span class="p">(</span><span class="nf">app</span><span class="p">)</span> <span class="kr">where</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
 </span><span class='line'>
 </span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="kr">import</span>            <span class="nn">Control.Applicative</span>
 </span><span class='line'><span class="kr">import</span>            <span class="nn">Control.Monad.State</span>
@@ -94,7 +90,7 @@ first some imports:</p>
 <p>Since we are using Snap 0.7 at the moment of writing, we start by defining
 out snaplet state type, generating some lenses using Template Haskell and
 defining a handy type synonym for our handlers. We also want to use Heist,
-so we need to define a HasHeist instance for our App type as well.</p>
+so we need to define a <code>HasHeist</code> instance for our <code>App</code> type as well.</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -141,7 +137,7 @@ datatype:</p>
 
 <p>Defining the form is straight-forward if you are used to working with digestive-functors.
 The form is wrapped in divs for better styling options and we attach validators to make
-sure that we get a valid email address and a long enough password. The isValid function
+sure that we get a valid email address and a long enough password. The <code>isValid</code> function
 comes from the email-validate library.</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
