@@ -95,6 +95,14 @@ to play &hellip;">
 <div class="entry-content"><p>In this post we will make digestive-functors and Heist play together
 nicely (although currently this post is secretly just here to allow me
 to play with Octopress)</p>
+
+<!-- more -->
+
+
+<p>{% codeblocki lang:haskell %}
+let nodes = renderHtmlNodes $ showForm &#8220;/login&#8221; form&#8217; &#8211; [Node]
+heistLocal (bindSplice &#8220;form&#8221; (return nodes)) $ render &#8220;form&#8221;
+{% endcodeblock %}</p>
 </div>
 
 

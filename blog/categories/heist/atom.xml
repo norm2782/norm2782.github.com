@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Heist | Norm 2782]]></title>
   <link href="http://norm2782.github.com/blog/categories/heist/atom.xml" rel="self"/>
   <link href="http://norm2782.github.com/"/>
-  <updated>2012-01-01T21:36:37+01:00</updated>
+  <updated>2012-01-01T21:41:49+01:00</updated>
   <id>http://norm2782.github.com/</id>
   <author>
     <name><![CDATA[Jurriën Stutterheim]]></name>
@@ -21,6 +21,14 @@
     <content type="html"><![CDATA[<p>In this post we will make digestive-functors and Heist play together
 nicely (although currently this post is secretly just here to allow me
 to play with Octopress)</p>
+
+<!-- more -->
+
+
+<p>{% codeblocki lang:haskell %}
+let nodes = renderHtmlNodes $ showForm "/login" form' -- [Node]
+heistLocal (bindSplice "form" (return nodes)) $ render "form"
+{% endcodeblock %}</p>
 ]]></content>
   </entry>
   
