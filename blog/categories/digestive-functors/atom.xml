@@ -4,7 +4,7 @@
   <title><![CDATA[Category: digestive-functors | Norm 2782]]></title>
   <link href="http://norm2782.github.com/blog/categories/digestive-functors/atom.xml" rel="self"/>
   <link href="http://norm2782.github.com/"/>
-  <updated>2012-01-01T21:41:49+01:00</updated>
+  <updated>2012-01-01T21:42:22+01:00</updated>
   <id>http://norm2782.github.com/</id>
   <author>
     <name><![CDATA[Jurriën Stutterheim]]></name>
@@ -25,10 +25,11 @@ to play with Octopress)</p>
 <!-- more -->
 
 
-<p>{% codeblocki lang:haskell %}
-let nodes = renderHtmlNodes $ showForm "/login" form' -- [Node]
-heistLocal (bindSplice "form" (return nodes)) $ render "form"
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="kr">let</span> <span class="n">nodes</span> <span class="ow">=</span> <span class="n">renderHtmlNodes</span> <span class="o">$</span> <span class="n">showForm</span> <span class="s">&quot;/login&quot;</span> <span class="n">form&#39;</span> <span class="c1">-- [Node]</span>
+</span><span class='line'><span class="nf">heistLocal</span> <span class="p">(</span><span class="n">bindSplice</span> <span class="s">&quot;form&quot;</span> <span class="p">(</span><span class="n">return</span> <span class="n">nodes</span><span class="p">))</span> <span class="o">$</span> <span class="n">render</span> <span class="s">&quot;form&quot;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 ]]></content>
   </entry>
   

@@ -99,10 +99,16 @@ to play with Octopress)</p>
 <!-- more -->
 
 
-<p>{% codeblocki lang:haskell %}
-let nodes = renderHtmlNodes $ showForm &#8220;/login&#8221; form&#8217; &#8211; [Node]
-heistLocal (bindSplice &#8220;form&#8221; (return nodes)) $ render &#8220;form&#8221;
-{% endcodeblock %}</p>
+
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="kr">let</span> <span class="n">nodes</span> <span class="ow">=</span> <span class="n">renderHtmlNodes</span> <span class="o">$</span> <span class="n">showForm</span> <span class="s">&quot;/login&quot;</span> <span class="n">form&#39;</span> <span class="c1">-- [Node]</span>
+</span><span class='line'><span class="nf">heistLocal</span> <span class="p">(</span><span class="n">bindSplice</span> <span class="s">&quot;form&quot;</span> <span class="p">(</span><span class="n">return</span> <span class="n">nodes</span><span class="p">))</span> <span class="o">$</span> <span class="n">render</span> <span class="s">&quot;form&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
 </div>
 
 
