@@ -25,7 +25,7 @@ that you know how to work with the digestive-functors library.
 Since this post is written as a Literate Haskell file, we first define
 some imports and other boilerplate:
 
-{% codeblock lang:haskell %}
+``` haskell
 
 > {-# LANGUAGE OverloadedStrings, TemplateHaskell #-}
 >
@@ -51,7 +51,7 @@ some imports and other boilerplate:
 > import qualified  Text.Email.Validate as E
 > import            Text.Templating.Heist
 
-{% endcodeblock %}
+```
 
 Since we are using Snap 0.7 at the moment of writing, we start by defining
 out snaplet state type, generating some lenses using Template Haskell and
@@ -59,7 +59,7 @@ defining a handy type synonym for our handlers. We also want to use Heist,
 so we need to define a `HasHeist` instance for our `App` type as well.
 And, since this is a snaplet, we need to define our snaplet initialiser.
 
-{% codeblock lang:haskell %}
+``` haskell
 
 > data App
 >   =  App
@@ -81,7 +81,7 @@ And, since this is a snaplet, we need to define our snaplet initialiser.
 >     addRoutes [ ("/", formHandler) ]
 >     return $ App h
 
-{% endcodeblock %}
+```
 
 Having written all the boilerplate, we can get started with defining our form.
 In this case it's a simple login form with a plain textfield, a password field,
@@ -90,7 +90,7 @@ a remember me checkbox and a login button.
 When the form has been validated, we want to store the form data in a custom
 datatype:
 
-{% codeblock lang:haskell %}
+``` haskell
 
 > data LoginData
 >   =  LoginData
@@ -98,14 +98,15 @@ datatype:
 >   ,  password :: Text
 >   ,  rememberMe :: Bool }
 
-{% endcodeblock %}
+```
+
 
 Defining the form is straight-forward if you are used to working with digestive-functors.
 The form is wrapped in divs for better styling options and we attach validators to make
 sure that we get a valid email address and a long enough password. The `isValid` function
 comes from the email-validate library.
 
-{% codeblock lang:haskell %}
+``` haskell
 
 > loginForm :: Form AppHandler SnapInput Html (FormHtml Html) LoginData
 > loginForm = (\e p r _ -> LoginData e p r)
@@ -130,12 +131,12 @@ comes from the email-validate library.
 > longPwd  =  check "Password needs to be at least six characters long"
 >          $  \xs -> T.length xs >= 6
 
-{% endcodeblock %}
+```
 
 Up to this point we have not seen anything new yet, so lets start with something a bit
 more interesting. For most of my Snap apps I use the following function to render a form:
 
-{% codeblock lang:haskell %}
+``` haskell
 
 > showForm :: AttributeValue -> AttributeValue -> FormHtml (HtmlM a) -> Html
 > showForm act mth frm =
@@ -143,7 +144,7 @@ more interesting. For most of my Snap apps I use the following function to rende
 >   in   H.form  ! A.enctype (H.toValue $ show enctype) ! A.method mth
 >                ! A.action act $ formHtml' >> return ()
 
-{% endcodeblock %}
+```
 
 It takes an `AttributeValue` containing the target of the form, an `AttributeValue` containing
 the HTTP request method and a form as produced by the `eitherSnapForm` function we will see
@@ -155,7 +156,7 @@ provides the `eitherSnapForm` function. This function can be applied to a digest
 form and a form name, after which it will use the Snap API to parse the request. Before
 continueing, lets have a look at some code:
 
-{% codeblock lang:haskell %}
+``` haskell
 
 > formHandler :: AppHandler ()
 > formHandler = do
@@ -166,7 +167,7 @@ continueing, lets have a look at some code:
 >       heistLocal (bindSplice "formElm" (return nodes)) $ render "formTpl"
 >     Right (LoginData e p r) -> writeBS "Success!"
 
-{% endcodeblock %}
+```
 
 The result of `eitherSnapForm` is an `Either` value. When the form has not been submitted yet,
 or if a submitted form failed validation, the result will be a `Left` constructor containing
@@ -186,7 +187,7 @@ The final piece of the puzzle is the template in which the form needs to be rend
 see, rendering the form--including potential validation error messages--is done by adding nothing
 but a single element to the template.
 
-{% codeblock lang:xml %}
+``` xml
 <html>
   <head>
     <title>Heist and digestive-functors playing nice</title>
@@ -195,7 +196,7 @@ but a single element to the template.
     <formElm />
   </body>
 </html>
-{% endcodeblock %}
+```
 
 With this, we have seen how to use digestive-functors and Heist together in a win-win scenario.
 On the one hand you mostly maintain your separation of concerns by using Heist for most of your
