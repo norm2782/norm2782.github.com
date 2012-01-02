@@ -101,10 +101,10 @@ datatype:
 ```
 
 
-Defining the form is straight-forward if you are used to working with digestive-functors.
-The form is wrapped in divs for better styling options and we attach validators to make
-sure that we get a valid email address and a long enough password. The `isValid` function
-comes from the email-validate library.
+Defining the form is straight-forward if you are used to working with
+digestive-functors. The form is wrapped in divs for better styling options and
+we attach validators to make sure that we get a valid email address and a long
+enough password. The `isValid` function comes from the email-validate library.
 
 ``` haskell
 
@@ -133,8 +133,9 @@ comes from the email-validate library.
 
 ```
 
-Up to this point we have not seen anything new yet, so lets start with something a bit
-more interesting. For most of my Snap apps I use the following function to render a form:
+Up to this point we have not seen anything new yet, so lets start with
+something a bit more interesting. For most of my Snap apps I use the following
+function to render a form:
 
 ``` haskell
 
@@ -146,15 +147,17 @@ more interesting. For most of my Snap apps I use the following function to rende
 
 ```
 
-It takes an `AttributeValue` containing the target of the form, an `AttributeValue` containing
-the HTTP request method and a form as produced by the `eitherSnapForm` function we will see
-below, resulting in a rendered form of type `Html`.
+It takes an `AttributeValue` containing the target of the form, an
+`AttributeValue` containing the HTTP request method and a form as produced by
+the `eitherSnapForm` function we will see below, resulting in a rendered form
+of type `Html`.
 
-Now for the request handler, which is where most of the action will take place. We want to
-make our lives easy, so we call in the help of the digestive-functors-snap library, which
-provides the `eitherSnapForm` function. This function can be applied to a digestive-functors
-form and a form name, after which it will use the Snap API to parse the request. Before
-continueing, lets have a look at some code:
+Now for the request handler, which is where most of the action will take place.
+We want to make our lives easy, so we call in the help of the
+digestive-functors-snap library, which provides the `eitherSnapForm` function.
+This function can be applied to a digestive-functors form and a form name,
+after which it will use the Snap API to parse the request. Before continueing,
+lets have a look at some code:
 
 ``` haskell
 
@@ -169,23 +172,26 @@ continueing, lets have a look at some code:
 
 ```
 
-The result of `eitherSnapForm` is an `Either` value. When the form has not been submitted yet,
-or if a submitted form failed validation, the result will be a `Left` constructor containing
-a form of type `FormHtml (HtmlM a)`. When a form has been submitted and has succesfully passed
-validation, we will get a `Right` value containing the constructor applied in our form (in this
-case the `LoginData` constructor).
+The result of `eitherSnapForm` is an `Either` value. When the form has not been
+submitted yet, or if a submitted form failed validation, the result will be a
+`Left` constructor containing a form of type `FormHtml (HtmlM a)`. When a form
+has been submitted and has succesfully passed validation, we will get a `Right`
+value containing the constructor applied in our form (in this case the
+`LoginData` constructor).
 
-Rendering the form is done when we get a `Left` result. As it turns out, it is almost trivially
-easy to render the form in Heist. To bind the form as a Heist splice, we first need to render it
-to an `Html` value using our `showForm` function. Since Heist cannot work with values of type
-`Html`, we have to convert the `Html` to something Heist does understand. Luckily, the xmlhtml
-library provides us with a function that does just that: `renderHtmlNodes :: Html -> [Node]`.
-Heist loves a list of `Node`s, so all we need to do is `return` it to the `Splice` context so
-we can bind it as a splice to our template.
+Rendering the form is done when we get a `Left` result. As it turns out, it is
+almost trivially easy to render the form in Heist. To bind the form as a Heist
+splice, we first need to render it to an `Html` value using our `showForm`
+function. Since Heist cannot work with values of type `Html`, we have to
+convert the `Html` to something Heist does understand. Luckily, the xmlhtml
+library provides us with a function that does just that: `renderHtmlNodes ::
+Html -> [Node]`. Heist loves a list of `Node`s, so all we need to do is
+`return` it to the `Splice` context so we can bind it as a splice to our
+template.
 
-The final piece of the puzzle is the template in which the form needs to be rendered. As you can
-see, rendering the form--including potential validation error messages--is done by adding nothing
-but a single element to the template.
+The final piece of the puzzle is the template in which the form needs to be
+rendered. As you can see, rendering the form--including potential validation
+error messages--is done by adding nothing but a single element to the template.
 
 ``` xml
 <html>
@@ -198,6 +204,7 @@ but a single element to the template.
 </html>
 ```
 
-With this, we have seen how to use digestive-functors and Heist together in a win-win scenario.
-On the one hand you mostly maintain your separation of concerns by using Heist for most of your
-HTML output, while on the other hand you can enjoy the great digestive-functors library as-is.
+With this, we have seen how to use digestive-functors and Heist together in a
+win-win scenario. On the one hand you mostly maintain your separation of
+concerns by using Heist for most of your HTML output, while on the other hand
+you can enjoy the great digestive-functors library as-is.

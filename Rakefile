@@ -50,9 +50,13 @@ end
 desc "Generate jekyll site"
 task :generate do
   raise "### You haven't set anything up yet. First run `rake install` to set up an Octopress theme." unless File.directory?(source_dir)
+  puts "## Renaming lhs to markdown"
+  system "for f in source/_posts/*; do mv $f ${f/.lhs/.markdown}; done;"
   puts "## Generating Site with Jekyll"
   system "compass compile --css-dir #{source_dir}/stylesheets"
   system "jekyll"
+  puts "## Renaming markdown back to lhs"
+  system "for f in source/_posts/*; do mv $f ${f/.markdown/.lhs}; done;"
 end
 
 desc "Watch the site and regenerate when it changes"
