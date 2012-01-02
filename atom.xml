@@ -4,7 +4,7 @@
   <title><![CDATA[Norm 2782]]></title>
   <link href="http://norm2782.github.com/atom.xml" rel="self"/>
   <link href="http://norm2782.github.com/"/>
-  <updated>2012-01-02T09:16:28+01:00</updated>
+  <updated>2012-01-02T09:20:17+01:00</updated>
   <id>http://norm2782.github.com/</id>
   <author>
     <name><![CDATA[Jurriën Stutterheim]]></name>
@@ -283,7 +283,7 @@ but a single element to the template.</p>
 </span><span class='line'>    <span class="nt">&lt;title&gt;</span>Heist and digestive-functors playing nice<span class="nt">&lt;/title&gt;</span>
 </span><span class='line'>  <span class="nt">&lt;/head&gt;</span>
 </span><span class='line'>  <span class="nt">&lt;body&gt;</span>
-</span><span class='line'>    <span class="nt">&lt;form</span> <span class="nt">/&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;formElm</span> <span class="nt">/&gt;</span>
 </span><span class='line'>  <span class="nt">&lt;/body&gt;</span>
 </span><span class='line'><span class="nt">&lt;/html&gt;</span>
 </span></code></pre></td></tr></table></div></figure>
