@@ -100,7 +100,6 @@ datatype:
 
 ```
 
-
 Defining the form is straight-forward if you are used to working with
 digestive-functors. The form is wrapped in divs for better styling options and
 we attach validators to make sure that we get a valid email address and a long

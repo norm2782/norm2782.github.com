@@ -47,21 +47,30 @@ end
 # Working with Jekyll #
 #######################
 
+def mkMD()
+  puts "## Renaming lhs to markdown"
+  system "for f in source/_posts/*; do mv $f ${f/.lhs/.markdown}; done;"
+end
+
+def mkLHS()
+  puts "## Renaming markdown back to lhs"
+  system "for f in source/_posts/*; do mv $f ${f/.markdown/.lhs}; done;"
+end
+
 desc "Generate jekyll site"
 task :generate do
   raise "### You haven't set anything up yet. First run `rake install` to set up an Octopress theme." unless File.directory?(source_dir)
-  puts "## Renaming lhs to markdown"
-  system "for f in source/_posts/*; do mv $f ${f/.lhs/.markdown}; done;"
+  mkMD()
   puts "## Generating Site with Jekyll"
   system "compass compile --css-dir #{source_dir}/stylesheets"
   system "jekyll"
-  puts "## Renaming markdown back to lhs"
-  system "for f in source/_posts/*; do mv $f ${f/.markdown/.lhs}; done;"
+  mkLHS()
 end
 
 desc "Watch the site and regenerate when it changes"
 task :watch do
   raise "### You haven't set anything up yet. First run `rake install` to set up an Octopress theme." unless File.directory?(source_dir)
+  mkMD()
   puts "Starting to watch source with Jekyll and Compass."
   system "compass compile --css-dir #{source_dir}/stylesheets" unless File.exist?("#{source_dir}/stylesheets/screen.css")
   jekyllPid = Process.spawn({"OCTOPRESS_ENV"=>"preview"}, "jekyll --auto")
@@ -69,15 +78,18 @@ task :watch do
 
   trap("INT") {
     [jekyllPid, compassPid].each { |pid| Process.kill(9, pid) rescue Errno::ESRCH }
+    mkLHS()
     exit 0
   }
 
   [jekyllPid, compassPid].each { |pid| Process.wait(pid) }
+  mkLHS()
 end
 
 desc "preview the site in a web browser"
 task :preview do
   raise "### You haven't set anything up yet. First run `rake install` to set up an Octopress theme." unless File.directory?(source_dir)
+  mkMD()
   puts "Starting to watch source with Jekyll and Compass. Starting Rack on port #{server_port}"
   system "compass compile --css-dir #{source_dir}/stylesheets" unless File.exist?("#{source_dir}/stylesheets/screen.css")
   jekyllPid = Process.spawn({"OCTOPRESS_ENV"=>"preview"}, "jekyll --auto")
@@ -86,10 +98,12 @@ task :preview do
 
   trap("INT") {
     [jekyllPid, compassPid, rackupPid].each { |pid| Process.kill(9, pid) rescue Errno::ESRCH }
+    mkLHS()
     exit 0
   }
 
   [jekyllPid, compassPid, rackupPid].each { |pid| Process.wait(pid) }
+  mkLHS()
 end
 
 # usage rake new_post[my-new-post] or rake new_post['my new post'] or rake new_post (defaults to "new-post")
@@ -379,3 +393,4 @@ task :list do
   puts "Tasks: #{(Rake::Task.tasks - [Rake::Task[:list]]).join(', ')}"
   puts "(type rake -T for more detail)\n\n"
 end
+
