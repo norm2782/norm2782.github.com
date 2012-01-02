@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Snap | Norm 2782]]></title>
   <link href="http://norm2782.github.com/blog/categories/snap/atom.xml" rel="self"/>
   <link href="http://norm2782.github.com/"/>
-  <updated>2012-01-02T10:27:47+01:00</updated>
+  <updated>2012-01-02T11:06:32+01:00</updated>
   <id>http://norm2782.github.com/</id>
   <author>
     <name><![CDATA[Jurriën Stutterheim]]></name>
@@ -38,61 +38,33 @@ that you know how to work with the digestive-functors library.</p>
 <p>Since this post is written as a Literate Haskell file, we first define
 some imports and other boilerplate:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">blockquote</span><span class="o">&gt;&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="cm">{-# LANGUAGE OverloadedStrings, TemplateHaskell #-}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="kr">module</span> <span class="nn">Site</span> <span class="p">(</span><span class="nf">app</span><span class="p">)</span> <span class="kr">where</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="kr">import</span>            <span class="nn">Control.Applicative</span>
-</span><span class='line'><span class="kr">import</span>            <span class="nn">Control.Monad.State</span>
-</span><span class='line'><span class="kr">import</span>            <span class="nn">Data.Lens.Template</span>
-</span><span class='line'><span class="kr">import</span>            <span class="nn">Data.Maybe</span>
-</span><span class='line'><span class="kr">import</span>            <span class="nn">Data.Text</span> <span class="p">(</span><span class="kt">Text</span><span class="p">)</span>
-</span><span class='line'><span class="kr">import</span> <span class="k">qualified</span>  <span class="nn">Data.Text</span> <span class="k">as</span> <span class="n">T</span>
-</span><span class='line'><span class="kr">import</span>            <span class="nn">Snap.Core</span>
-</span><span class='line'><span class="kr">import</span>            <span class="nn">Snap.Snaplet</span>
-</span><span class='line'><span class="kr">import</span>            <span class="nn">Snap.Snaplet.Heist</span>
-</span><span class='line'><span class="kr">import</span>            <span class="nn">Text.Blaze</span>
-</span><span class='line'><span class="kr">import</span> <span class="k">qualified</span>  <span class="nn">Text.Blaze.Html5</span> <span class="k">as</span> <span class="n">H</span>
-</span><span class='line'><span class="kr">import</span> <span class="k">qualified</span>  <span class="nn">Text.Blaze.Html5.Attributes</span> <span class="k">as</span> <span class="n">A</span>
-</span><span class='line'><span class="kr">import</span>            <span class="nn">Text.Blaze.Internal</span> <span class="p">(</span><span class="kt">HtmlM</span><span class="p">(</span><span class="o">..</span><span class="p">))</span>
-</span><span class='line'><span class="kr">import</span>            <span class="nn">Text.Blaze.Renderer.XmlHtml</span>
-</span><span class='line'><span class="kr">import</span>            <span class="nn">Text.Digestive</span>
-</span><span class='line'><span class="kr">import</span>            <span class="nn">Text.Digestive.Forms.Snap</span>
-</span><span class='line'><span class="kr">import</span>            <span class="nn">Text.Digestive.Blaze.Html5</span>
-</span><span class='line'><span class="kr">import</span> <span class="k">qualified</span>  <span class="nn">Text.Email.Validate</span> <span class="k">as</span> <span class="n">E</span>
-</span><span class='line'><span class="kr">import</span>            <span class="nn">Text.Templating.Heist</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;&lt;/</span><span class="n">blockquote</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>``` haskell</p>
+
+<blockquote><p>{-# LANGUAGE OverloadedStrings, TemplateHaskell #-}</p>
+
+<p>module Site (app) where</p>
+
+<p>import            Control.Applicative
+import            Control.Monad.State
+import            Data.Lens.Template
+import            Data.Maybe
+import            Data.Text (Text)
+import qualified  Data.Text as T
+import            Snap.Core
+import            Snap.Snaplet
+import            Snap.Snaplet.Heist
+import            Text.Blaze
+import qualified  Text.Blaze.Html5 as H
+import qualified  Text.Blaze.Html5.Attributes as A
+import            Text.Blaze.Internal (HtmlM(..))
+import            Text.Blaze.Renderer.XmlHtml
+import            Text.Digestive
+import            Text.Digestive.Forms.Snap
+import            Text.Digestive.Blaze.Html5
+import qualified  Text.Email.Validate as E
+import            Text.Templating.Heist</p></blockquote>
+
+<p>```</p>
 
 <p>Since we are using Snap 0.7 at the moment of writing, we start by defining
 out snaplet state type, generating some lenses using Template Haskell and
@@ -100,57 +72,31 @@ defining a handy type synonym for our handlers. We also want to use Heist,
 so we need to define a <code>HasHeist</code> instance for our <code>App</code> type as well.
 And, since this is a snaplet, we need to define our snaplet initialiser.</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">blockquote</span><span class="o">&gt;&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="kr">data</span> <span class="kt">App</span>
-</span><span class='line'>  <span class="ow">=</span>  <span class="kt">App</span>
-</span><span class='line'>  <span class="p">{</span>  <span class="n">_heist</span> <span class="ow">::</span> <span class="kt">Snaplet</span> <span class="p">(</span><span class="kt">Heist</span> <span class="kt">App</span><span class="p">)</span>
-</span><span class='line'>  <span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">makeLens</span> <span class="sc">&#39;&#39;</span><span class="kt">App</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="kr">type</span> <span class="kt">AppHandler</span> <span class="ow">=</span> <span class="kt">Handler</span> <span class="kt">App</span> <span class="kt">App</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="kr">instance</span> <span class="kt">HasHeist</span> <span class="kt">App</span> <span class="kr">where</span>
-</span><span class='line'>  <span class="n">heistLens</span> <span class="ow">=</span> <span class="n">subSnaplet</span> <span class="n">heist</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">app</span> <span class="ow">::</span> <span class="kt">SnapletInit</span> <span class="kt">App</span> <span class="kt">App</span>
-</span><span class='line'><span class="nf">app</span> <span class="ow">=</span> <span class="n">makeSnaplet</span> <span class="s">&quot;hdf&quot;</span>
-</span><span class='line'>  <span class="s">&quot;An example of digestive-functors and Heist playing nicely together.&quot;</span>
-</span><span class='line'>  <span class="kt">Nothing</span> <span class="o">$</span> <span class="kr">do</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">h</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">-</span> <span class="n">nestSnaplet</span> <span class="s">&quot;heist&quot;</span> <span class="n">heist</span> <span class="o">$</span> <span class="n">heistInit</span> <span class="s">&quot;resources/templates&quot;</span>
-</span><span class='line'><span class="nf">addRoutes</span> <span class="p">[</span> <span class="p">(</span><span class="s">&quot;/&quot;</span><span class="p">,</span> <span class="n">formHandler</span><span class="p">)</span> <span class="p">]</span>
-</span><span class='line'><span class="nf">return</span> <span class="o">$</span> <span class="kt">App</span> <span class="n">h</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;&lt;/</span><span class="n">blockquote</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>``` haskell</p>
+
+<blockquote><p>data App
+  =  App
+  {  _heist :: Snaplet (Heist App)
+  }</p>
+
+<p>makeLens ''App</p>
+
+<p>type AppHandler = Handler App App</p>
+
+<p>instance HasHeist App where
+  heistLens = subSnaplet heist</p>
+
+<p>app :: SnapletInit App App
+app = makeSnaplet "hdf"
+  "An example of digestive-functors and Heist playing nicely together."
+  Nothing $ do</p>
+
+<pre><code>h &lt;- nestSnaplet "heist" heist $ heistInit "resources/templates"
+addRoutes [ ("/", formHandler) ]
+return $ App h
+</code></pre></blockquote>
+
+<p>```</p>
 
 <p>Having written all the boilerplate, we can get started with defining our form.
 In this case it's a simple login form with a plain textfield, a password field,
@@ -159,137 +105,75 @@ a remember me checkbox and a login button.</p>
 <p>When the form has been validated, we want to store the form data in a custom
 datatype:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">blockquote</span><span class="o">&gt;&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="kr">data</span> <span class="kt">LoginData</span>
-</span><span class='line'>  <span class="ow">=</span>  <span class="kt">LoginData</span>
-</span><span class='line'>  <span class="p">{</span>  <span class="n">emailAddress</span> <span class="ow">::</span> <span class="kt">Text</span>
-</span><span class='line'>  <span class="p">,</span>  <span class="n">password</span> <span class="ow">::</span> <span class="kt">Text</span>
-</span><span class='line'>  <span class="p">,</span>  <span class="n">rememberMe</span> <span class="ow">::</span> <span class="kt">Bool</span> <span class="p">}</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;&lt;/</span><span class="n">blockquote</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>``` haskell</p>
+
+<blockquote><p>data LoginData
+  =  LoginData
+  {  emailAddress :: Text
+  ,  password :: Text
+  ,  rememberMe :: Bool }</p></blockquote>
+
+<p>```</p>
 
 <p>Defining the form is straight-forward if you are used to working with digestive-functors.
 The form is wrapped in divs for better styling options and we attach validators to make
 sure that we get a valid email address and a long enough password. The <code>isValid</code> function
 comes from the email-validate library.</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">blockquote</span><span class="o">&gt;&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">loginForm</span> <span class="ow">::</span> <span class="kt">Form</span> <span class="kt">AppHandler</span> <span class="kt">SnapInput</span> <span class="kt">Html</span> <span class="p">(</span><span class="kt">FormHtml</span> <span class="kt">Html</span><span class="p">)</span> <span class="kt">LoginData</span>
-</span><span class='line'><span class="nf">loginForm</span> <span class="ow">=</span> <span class="p">(</span><span class="nf">\</span><span class="n">e</span> <span class="n">p</span> <span class="n">r</span> <span class="kr">_</span> <span class="ow">-&gt;</span> <span class="kt">LoginData</span> <span class="n">e</span> <span class="n">p</span> <span class="n">r</span><span class="p">)</span>
-</span><span class='line'>  <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">$&gt;</span>  <span class="n">mapViewHtml</span> <span class="kt">H</span><span class="o">.</span><span class="n">div</span> <span class="p">(</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span>   <span class="n">label</span>  <span class="s">&quot;Email address: &quot;</span>
-</span><span class='line'>   <span class="o">++&amp;</span><span class="n">gt</span><span class="p">;</span>    <span class="n">inputText</span> <span class="kt">Nothing</span> <span class="p">`</span><span class="n">validate</span><span class="p">`</span> <span class="n">isEmail</span>
-</span><span class='line'>   <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">++</span>    <span class="n">errors</span><span class="p">)</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>  <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">*&gt;</span>  <span class="n">mapViewHtml</span> <span class="kt">H</span><span class="o">.</span><span class="n">div</span><span class="p">(</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span>   <span class="n">label</span>  <span class="s">&quot;Password: &quot;</span>
-</span><span class='line'>   <span class="o">++&amp;</span><span class="n">gt</span><span class="p">;</span>    <span class="n">inputPassword</span> <span class="kt">False</span> <span class="p">`</span><span class="n">validate</span><span class="p">`</span> <span class="n">longPwd</span>
-</span><span class='line'>   <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">++</span>    <span class="n">errors</span><span class="p">)</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>  <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">*&gt;</span>  <span class="n">mapViewHtml</span> <span class="kt">H</span><span class="o">.</span><span class="n">div</span> <span class="p">(</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span>   <span class="n">label</span>  <span class="s">&quot;Remember me?&quot;</span>
-</span><span class='line'>   <span class="o">++&amp;</span><span class="n">gt</span><span class="p">;</span>    <span class="n">inputCheckBox</span> <span class="kt">True</span><span class="p">)</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>  <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">*&gt;</span>  <span class="n">mapViewHtml</span> <span class="kt">H</span><span class="o">.</span><span class="n">div</span> <span class="p">(</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span>   <span class="n">submit</span> <span class="s">&quot;Login&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">isEmail</span> <span class="ow">::</span> <span class="kt">Validator</span> <span class="kt">AppHandler</span> <span class="kt">Html</span> <span class="kt">Text</span>
-</span><span class='line'><span class="nf">isEmail</span> <span class="ow">=</span> <span class="n">check</span> <span class="s">&quot;Invalid email address&quot;</span> <span class="p">(</span><span class="kt">E</span><span class="o">.</span><span class="n">isValid</span> <span class="o">.</span> <span class="kt">T</span><span class="o">.</span><span class="n">unpack</span><span class="p">)</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">longPwd</span> <span class="ow">::</span> <span class="kt">Validator</span> <span class="kt">AppHandler</span> <span class="kt">Html</span> <span class="kt">Text</span>
-</span><span class='line'><span class="nf">longPwd</span>  <span class="ow">=</span>  <span class="n">check</span> <span class="s">&quot;Password needs to be at least six characters long&quot;</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span>     <span class="o">$</span>  <span class="nf">\</span><span class="n">xs</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="kt">T</span><span class="o">.</span><span class="n">length</span> <span class="n">xs</span> <span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="ow">=</span> <span class="mi">6</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;&lt;/</span><span class="n">blockquote</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>``` haskell</p>
+
+<blockquote><p>loginForm :: Form AppHandler SnapInput Html (FormHtml Html) LoginData
+loginForm = (\e p r _ -> LoginData e p r)
+  &lt;$>  mapViewHtml H.div (</p>
+
+<pre><code>   label  "Email address: "
+   ++&gt;    inputText Nothing `validate` isEmail
+   &lt;++    errors)
+</code></pre>
+
+<p>  &lt;*>  mapViewHtml H.div(</p>
+
+<pre><code>   label  "Password: "
+   ++&gt;    inputPassword False `validate` longPwd
+   &lt;++    errors)
+</code></pre>
+
+<p>  &lt;*>  mapViewHtml H.div (</p>
+
+<pre><code>   label  "Remember me?"
+   ++&gt;    inputCheckBox True)
+</code></pre>
+
+<p>  &lt;*>  mapViewHtml H.div (</p>
+
+<pre><code>   submit "Login")
+</code></pre>
+
+<p>isEmail :: Validator AppHandler Html Text
+isEmail = check "Invalid email address" (E.isValid . T.unpack)</p>
+
+<p>longPwd :: Validator AppHandler Html Text
+longPwd  =  check "Password needs to be at least six characters long"</p>
+
+<pre><code>     $  \xs -&gt; T.length xs &gt;= 6
+</code></pre></blockquote>
+
+<p>```</p>
 
 <p>Up to this point we have not seen anything new yet, so lets start with something a bit
 more interesting. For most of my Snap apps I use the following function to render a form:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">blockquote</span><span class="o">&gt;&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">showForm</span> <span class="ow">::</span> <span class="kt">AttributeValue</span> <span class="ow">-&gt;</span> <span class="kt">AttributeValue</span> <span class="ow">-&gt;</span> <span class="kt">FormHtml</span> <span class="p">(</span><span class="kt">HtmlM</span> <span class="n">a</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="kt">Html</span>
-</span><span class='line'><span class="nf">showForm</span> <span class="n">act</span> <span class="n">mth</span> <span class="n">frm</span> <span class="ow">=</span>
-</span><span class='line'>  <span class="kr">let</span>  <span class="p">(</span><span class="n">formHtml&#39;</span><span class="p">,</span> <span class="n">enctype</span><span class="p">)</span> <span class="ow">=</span> <span class="n">renderFormHtml</span> <span class="n">frm</span>
-</span><span class='line'>  <span class="kr">in</span>   <span class="kt">H</span><span class="o">.</span><span class="n">form</span>  <span class="o">!</span> <span class="kt">A</span><span class="o">.</span><span class="n">enctype</span> <span class="p">(</span><span class="kt">H</span><span class="o">.</span><span class="n">toValue</span> <span class="o">$</span> <span class="n">show</span> <span class="n">enctype</span><span class="p">)</span> <span class="o">!</span> <span class="kt">A</span><span class="o">.</span><span class="n">method</span> <span class="n">mth</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span>           <span class="o">!</span> <span class="kt">A</span><span class="o">.</span><span class="n">action</span> <span class="n">act</span> <span class="o">$</span> <span class="n">formHtml&#39;</span> <span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">return</span> <span class="nb">()</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;&lt;/</span><span class="n">blockquote</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>``` haskell</p>
+
+<blockquote><p>showForm :: AttributeValue -> AttributeValue -> FormHtml (HtmlM a) -> Html
+showForm act mth frm =
+  let  (formHtml', enctype) = renderFormHtml frm
+  in   H.form  ! A.enctype (H.toValue $ show enctype) ! A.method mth</p>
+
+<pre><code>           ! A.action act $ formHtml' &gt;&gt; return ()
+</code></pre></blockquote>
+
+<p>```</p>
 
 <p>It takes an <code>AttributeValue</code> containing the target of the form, an <code>AttributeValue</code> containing
 the HTTP request method and a form as produced by the <code>eitherSnapForm</code> function we will see
@@ -301,35 +185,20 @@ provides the <code>eitherSnapForm</code> function. This function can be applied 
 form and a form name, after which it will use the Snap API to parse the request. Before
 continueing, lets have a look at some code:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">blockquote</span><span class="o">&gt;&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="n">formHandler</span> <span class="ow">::</span> <span class="kt">AppHandler</span> <span class="nb">()</span>
-</span><span class='line'><span class="nf">formHandler</span> <span class="ow">=</span> <span class="kr">do</span>
-</span><span class='line'>  <span class="n">res</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">-</span> <span class="n">eitherSnapForm</span> <span class="n">loginForm</span> <span class="s">&quot;login-form&quot;</span>
-</span><span class='line'>  <span class="kr">case</span> <span class="n">res</span> <span class="kr">of</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="kt">Left</span> <span class="n">form</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="kr">do</span>
-</span><span class='line'>  <span class="kr">let</span> <span class="n">nodes</span> <span class="ow">=</span> <span class="n">renderHtmlNodes</span> <span class="o">$</span> <span class="n">showForm</span> <span class="s">&quot;/&quot;</span> <span class="s">&quot;post&quot;</span> <span class="n">form</span>
-</span><span class='line'>  <span class="n">heistLocal</span> <span class="p">(</span><span class="n">bindSplice</span> <span class="s">&quot;formElm&quot;</span> <span class="p">(</span><span class="n">return</span> <span class="n">nodes</span><span class="p">))</span> <span class="o">$</span> <span class="n">render</span> <span class="s">&quot;formTpl&quot;</span>
-</span><span class='line'><span class="kt">Right</span> <span class="p">(</span><span class="kt">LoginData</span> <span class="n">e</span> <span class="n">p</span> <span class="n">r</span><span class="p">)</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">writeBS</span> <span class="s">&quot;Success!&quot;</span>
-</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;&lt;/</span><span class="n">blockquote</span><span class="o">&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>``` haskell</p>
+
+<blockquote><p>formHandler :: AppHandler ()
+formHandler = do
+  res &lt;- eitherSnapForm loginForm "login-form"
+  case res of</p>
+
+<pre><code>Left form -&gt; do
+  let nodes = renderHtmlNodes $ showForm "/" "post" form
+  heistLocal (bindSplice "formElm" (return nodes)) $ render "formTpl"
+Right (LoginData e p r) -&gt; writeBS "Success!"
+</code></pre></blockquote>
+
+<p>```</p>
 
 <p>The result of <code>eitherSnapForm</code> is an <code>Either</code> value. When the form has not been submitted yet,
 or if a submitted form failed validation, the result will be a <code>Left</code> constructor containing
@@ -349,35 +218,22 @@ we can bind it as a splice to our template.</p>
 see, rendering the form--including potential validation error messages--is done by adding nothing
 but a single element to the template.</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;html&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;head&gt;&lt;/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="nt">&lt;pre&gt;&lt;code&gt;</span><span class="ni">&amp;lt;</span>title<span class="ni">&amp;gt;</span>Heist and digestive-functors playing nice<span class="ni">&amp;lt;</span>/title<span class="ni">&amp;gt;</span>
-</span><span class='line'><span class="nt">&lt;/code&gt;&lt;/pre&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="nt">&lt;p&gt;</span>  <span class="nt">&lt;/head&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;body&gt;&lt;/p&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="nt">&lt;pre&gt;&lt;code&gt;</span><span class="ni">&amp;lt;</span>formElm /<span class="ni">&amp;gt;</span>
-</span><span class='line'><span class="nt">&lt;/code&gt;&lt;/pre&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="nt">&lt;p&gt;</span>  <span class="nt">&lt;/body&gt;</span>
-</span><span class='line'><span class="nt">&lt;/html&gt;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>``` xml
+<html>
+  <head></p>
+
+<pre><code>&lt;title&gt;Heist and digestive-functors playing nice&lt;/title&gt;
+</code></pre>
+
+<p>  </head>
+  <body></p>
+
+<pre><code>&lt;formElm /&gt;
+</code></pre>
+
+<p>  </body>
+</html>
+```</p>
 
 <p>With this, we have seen how to use digestive-functors and Heist together in a win-win scenario.
 On the one hand you mostly maintain your separation of concerns by using Heist for most of your

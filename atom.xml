@@ -4,7 +4,7 @@
   <title><![CDATA[Norm 2782]]></title>
   <link href="http://norm2782.github.com/atom.xml" rel="self"/>
   <link href="http://norm2782.github.com/"/>
-  <updated>2012-01-02T10:27:47+01:00</updated>
+  <updated>2012-01-02T11:06:32+01:00</updated>
   <id>http://norm2782.github.com/</id>
   <author>
     <name><![CDATA[Jurriën Stutterheim]]></name>
@@ -18,26 +18,27 @@
     <link href="http://norm2782.github.com/blog/2012/01/01/using-digestive-functors-with-heist/"/>
     <updated>2012-01-01T21:23:00+01:00</updated>
     <id>http://norm2782.github.com/blog/2012/01/01/using-digestive-functors-with-heist</id>
-    <content type="html"><![CDATA[In this post we will make digestive-functors and Heist play together
+    <content type="html"><![CDATA[<p>In this post we will make digestive-functors and Heist play together
 nicely. We will see how we can create and validate forms using vanilla
 digestive-functors and render these, together with potential validation
-errors, in a Heist template.
+errors, in a Heist template.</p>
 
 <!-- more -->
 
-Currently this post is secretly just here to allow me to play with
-Octopress.
 
-This post assumes you are familiar with the snaplet infrastructure and
+<p>Currently this post is secretly just here to allow me to play with
+Octopress.</p>
+
+<p>This post assumes you are familiar with the snaplet infrastructure and
 that you are more or less comfortable with defining routes and rendering
 templates with Heist. If this is not the case, you might want to read
 some of the tutorials on the Snap website first. This post also assumes
-that you know how to work with the digestive-functors library.
+that you know how to work with the digestive-functors library.</p>
 
-Since this post is written as a Literate Haskell file, we first define
-some imports and other boilerplate:
+<p>Since this post is written as a Literate Haskell file, we first define
+some imports and other boilerplate:</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -85,13 +86,14 @@ some imports and other boilerplate:
 </span><span class='line'><span class="o">&gt;</span> <span class="kr">import</span>            <span class="nn">Text.Templating.Heist</span>
 </span></code></pre></td></tr></table></div></figure>
 
-Since we are using Snap 0.7 at the moment of writing, we start by defining
+
+<p>Since we are using Snap 0.7 at the moment of writing, we start by defining
 out snaplet state type, generating some lenses using Template Haskell and
 defining a handy type synonym for our handlers. We also want to use Heist,
-so we need to define a `HasHeist` instance for our `App` type as well.
-And, since this is a snaplet, we need to define our snaplet initialiser.
+so we need to define a <code>HasHeist</code> instance for our <code>App</code> type as well.
+And, since this is a snaplet, we need to define our snaplet initialiser.</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -131,14 +133,15 @@ And, since this is a snaplet, we need to define our snaplet initialiser.
 </span><span class='line'><span class="o">&gt;</span>     <span class="n">return</span> <span class="o">$</span> <span class="kt">App</span> <span class="n">h</span>
 </span></code></pre></td></tr></table></div></figure>
 
-Having written all the boilerplate, we can get started with defining our form.
+
+<p>Having written all the boilerplate, we can get started with defining our form.
 In this case it&#8217;s a simple login form with a plain textfield, a password field,
-a remember me checkbox and a login button.
+a remember me checkbox and a login button.</p>
 
-When the form has been validated, we want to store the form data in a custom
-datatype:
+<p>When the form has been validated, we want to store the form data in a custom
+datatype:</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -150,12 +153,13 @@ datatype:
 </span><span class='line'><span class="o">&gt;</span>   <span class="p">,</span>  <span class="n">rememberMe</span> <span class="ow">::</span> <span class="kt">Bool</span> <span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
-Defining the form is straight-forward if you are used to working with digestive-functors.
-The form is wrapped in divs for better styling options and we attach validators to make
-sure that we get a valid email address and a long enough password. The `isValid` function
-comes from the email-validate library.
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p>Defining the form is straight-forward if you are used to working with digestive-functors.
+The form is wrapped in divs for better styling options and we attach validators to make
+sure that we get a valid email address and a long enough password. The <code>isValid</code> function
+comes from the email-validate library.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -201,10 +205,11 @@ comes from the email-validate library.
 </span><span class='line'><span class="o">&gt;</span>          <span class="o">$</span>  <span class="nf">\</span><span class="n">xs</span> <span class="ow">-&gt;</span> <span class="kt">T</span><span class="o">.</span><span class="n">length</span> <span class="n">xs</span> <span class="o">&gt;=</span> <span class="mi">6</span>
 </span></code></pre></td></tr></table></div></figure>
 
-Up to this point we have not seen anything new yet, so lets start with something a bit
-more interesting. For most of my Snap apps I use the following function to render a form:
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p>Up to this point we have not seen anything new yet, so lets start with something a bit
+more interesting. For most of my Snap apps I use the following function to render a form:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -216,17 +221,18 @@ more interesting. For most of my Snap apps I use the following function to rende
 </span><span class='line'><span class="o">&gt;</span>                <span class="o">!</span> <span class="kt">A</span><span class="o">.</span><span class="n">action</span> <span class="n">act</span> <span class="o">$</span> <span class="n">formHtml&#39;</span> <span class="o">&gt;&gt;</span> <span class="n">return</span> <span class="nb">()</span>
 </span></code></pre></td></tr></table></div></figure>
 
-It takes an `AttributeValue` containing the target of the form, an `AttributeValue` containing
-the HTTP request method and a form as produced by the `eitherSnapForm` function we will see
-below, resulting in a rendered form of type `Html`.
 
-Now for the request handler, which is where most of the action will take place. We want to
+<p>It takes an <code>AttributeValue</code> containing the target of the form, an <code>AttributeValue</code> containing
+the HTTP request method and a form as produced by the <code>eitherSnapForm</code> function we will see
+below, resulting in a rendered form of type <code>Html</code>.</p>
+
+<p>Now for the request handler, which is where most of the action will take place. We want to
 make our lives easy, so we call in the help of the digestive-functors-snap library, which
-provides the `eitherSnapForm` function. This function can be applied to a digestive-functors
+provides the <code>eitherSnapForm</code> function. This function can be applied to a digestive-functors
 form and a form name, after which it will use the Snap API to parse the request. Before
-continueing, lets have a look at some code:
+continueing, lets have a look at some code:</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -244,25 +250,26 @@ continueing, lets have a look at some code:
 </span><span class='line'><span class="o">&gt;</span>     <span class="kt">Right</span> <span class="p">(</span><span class="kt">LoginData</span> <span class="n">e</span> <span class="n">p</span> <span class="n">r</span><span class="p">)</span> <span class="ow">-&gt;</span> <span class="n">writeBS</span> <span class="s">&quot;Success!&quot;</span>
 </span></code></pre></td></tr></table></div></figure>
 
-The result of `eitherSnapForm` is an `Either` value. When the form has not been submitted yet,
-or if a submitted form failed validation, the result will be a `Left` constructor containing
-a form of type `FormHtml (HtmlM a)`. When a form has been submitted and has succesfully passed
-validation, we will get a `Right` value containing the constructor applied in our form (in this
-case the `LoginData` constructor).
 
-Rendering the form is done when we get a `Left` result. As it turns out, it is almost trivially
+<p>The result of <code>eitherSnapForm</code> is an <code>Either</code> value. When the form has not been submitted yet,
+or if a submitted form failed validation, the result will be a <code>Left</code> constructor containing
+a form of type <code>FormHtml (HtmlM a)</code>. When a form has been submitted and has succesfully passed
+validation, we will get a <code>Right</code> value containing the constructor applied in our form (in this
+case the <code>LoginData</code> constructor).</p>
+
+<p>Rendering the form is done when we get a <code>Left</code> result. As it turns out, it is almost trivially
 easy to render the form in Heist. To bind the form as a Heist splice, we first need to render it
-to an `Html` value using our `showForm` function. Since Heist cannot work with values of type
-`Html`, we have to convert the `Html` to something Heist does understand. Luckily, the xmlhtml
-library provides us with a function that does just that: `renderHtmlNodes :: Html -> [Node]`.
-Heist loves a list of `Node`s, so all we need to do is `return` it to the `Splice` context so
-we can bind it as a splice to our template.
+to an <code>Html</code> value using our <code>showForm</code> function. Since Heist cannot work with values of type
+<code>Html</code>, we have to convert the <code>Html</code> to something Heist does understand. Luckily, the xmlhtml
+library provides us with a function that does just that: <code>renderHtmlNodes :: Html -&gt; [Node]</code>.
+Heist loves a list of <code>Node</code>s, so all we need to do is <code>return</code> it to the <code>Splice</code> context so
+we can bind it as a splice to our template.</p>
 
-The final piece of the puzzle is the template in which the form needs to be rendered. As you can
+<p>The final piece of the puzzle is the template in which the form needs to be rendered. As you can
 see, rendering the form&#8211;including potential validation error messages&#8211;is done by adding nothing
-but a single element to the template.
+but a single element to the template.</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -280,9 +287,10 @@ but a single element to the template.
 </span><span class='line'><span class="nt">&lt;/html&gt;</span>
 </span></code></pre></td></tr></table></div></figure>
 
-With this, we have seen how to use digestive-functors and Heist together in a win-win scenario.
+
+<p>With this, we have seen how to use digestive-functors and Heist together in a win-win scenario.
 On the one hand you mostly maintain your separation of concerns by using Heist for most of your
-HTML output, while on the other hand you can enjoy the great digestive-functors library as-is.
+HTML output, while on the other hand you can enjoy the great digestive-functors library as-is.</p>
 ]]></content>
   </entry>
   
