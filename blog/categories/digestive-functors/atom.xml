@@ -4,7 +4,7 @@
   <title><![CDATA[Category: digestive-functors | Norm 2782]]></title>
   <link href="http://norm2782.github.com/blog/categories/digestive-functors/atom.xml" rel="self"/>
   <link href="http://norm2782.github.com/"/>
-  <updated>2012-01-03T09:25:14+01:00</updated>
+  <updated>2012-01-03T10:26:07+01:00</updated>
   <id>http://norm2782.github.com/</id>
   <author>
     <name><![CDATA[Jurriën Stutterheim]]></name>
@@ -18,9 +18,9 @@
     <link href="http://norm2782.github.com/blog/2012/01/01/using-digestive-functors-with-heist/"/>
     <updated>2012-01-01T21:23:00+01:00</updated>
     <id>http://norm2782.github.com/blog/2012/01/01/using-digestive-functors-with-heist</id>
-    <content type="html"><![CDATA[<p>In this post we will make digestive-functors and Heist play together
+    <content type="html"><![CDATA[<p>In this post we will make <em>digestive-functors</em> and <em>Heist</em> play together
 nicely. We will see how we can create and validate forms using vanilla
-digestive-functors and render these, together with potential validation
+<em>digestive-functors</em> and render these, together with potential validation
 errors, in a Heist template.</p>
 
 <!-- more -->
@@ -33,7 +33,7 @@ Octopress.</p>
 that you are more or less comfortable with defining routes and rendering
 templates with Heist. If this is not the case, you might want to read
 some of the tutorials on the Snap website first. This post also assumes
-that you know how to work with the digestive-functors library.</p>
+that you know how to work with the <em>digestive-functors</em> library.</p>
 
 <p>Since this post is written as a Literate Haskell file, we first define
 some imports and other boilerplate:</p>
@@ -116,9 +116,10 @@ datatype:</p>
 <p>```</p>
 
 <p>Defining the form is straight-forward if you are used to working with
-digestive-functors. The form is wrapped in divs for better styling options and
-we attach validators to make sure that we get a valid email address and a long
-enough password. The <code>isValid</code> function comes from the email-validate library.</p>
+<em>digestive-functors</em>. The form is wrapped in divs for better styling options
+and we attach validators to make sure that we get a valid email address and a
+long enough password. The <code>isValid</code> function comes from the <em>email-validate</em>
+library.</p>
 
 <p>``` haskell</p>
 
@@ -183,10 +184,10 @@ of type <code>Html</code>.</p>
 
 <p>Now for the request handler, which is where most of the action will take place.
 We want to make our lives easy, so we call in the help of the
-digestive-functors-snap library, which provides the <code>eitherSnapForm</code> function.
-This function can be applied to a digestive-functors form and a form name,
-after which it will use the Snap API to parse the request. Before continueing,
-lets have a look at some code:</p>
+<em>digestive-functors-snap</em> library, which provides the <code>eitherSnapForm</code>
+function. This function can be applied to a <em>digestive-functors</em> form and a
+form name, after which it will use the Snap API to parse the request. Before
+continuing, lets have a look at some code:</p>
 
 <p>``` haskell</p>
 
@@ -241,10 +242,10 @@ error messages--is done by adding nothing but a single element to the template.<
 </html>
 ```</p>
 
-<p>With this, we have seen how to use digestive-functors and Heist together in a
+<p>With this, we have seen how to use <em>digestive-functors</em> and Heist together in a
 win-win scenario. On the one hand you mostly maintain your separation of
 concerns by using Heist for most of your HTML output, while on the other hand
-you can enjoy the great digestive-functors library as-is.</p>
+you can enjoy the great <em>digestive-functors</em> library as-is.</p>
 ]]></content>
   </entry>
   
