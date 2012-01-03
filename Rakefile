@@ -49,12 +49,14 @@ end
 
 def mkMD()
   puts "## Renaming lhs to markdown"
-  system "for f in source/_posts/*; do mv $f ${f/.lhs/.markdown}; done;"
+  system "for f in source/_posts/*.lhs; do mv $f ${f/.lhs/.markdown}; done;"
+  system "for f in source/*.lhs; do mv $f ${f/.lhs/.markdown}; done;"
 end
 
 def mkLHS()
   puts "## Renaming markdown back to lhs"
-  system "for f in source/_posts/*; do mv $f ${f/.markdown/.lhs}; done;"
+  system "for f in source/_posts/*.markdown; do mv $f ${f/.markdown/.lhs}; done;"
+  system "for f in source/*.markdown; do mv $f ${f/.markdown/.lhs}; done;"
 end
 
 desc "Generate jekyll site"
