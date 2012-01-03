@@ -6,9 +6,9 @@ comments: true
 categories: [Haskell, Snap, digestive-functors, Heist]
 ---
 
-In this post we will make digestive-functors and Heist play together
+In this post we will make *digestive-functors* and *Heist* play together
 nicely. We will see how we can create and validate forms using vanilla
-digestive-functors and render these, together with potential validation
+*digestive-functors* and render these, together with potential validation
 errors, in a Heist template.
 
 <!-- more -->
@@ -20,7 +20,7 @@ This post assumes you are familiar with the snaplet infrastructure and
 that you are more or less comfortable with defining routes and rendering
 templates with Heist. If this is not the case, you might want to read
 some of the tutorials on the Snap website first. This post also assumes
-that you know how to work with the digestive-functors library.
+that you know how to work with the *digestive-functors* library.
 
 Since this post is written as a Literate Haskell file, we first define
 some imports and other boilerplate:
@@ -101,9 +101,10 @@ datatype:
 ```
 
 Defining the form is straight-forward if you are used to working with
-digestive-functors. The form is wrapped in divs for better styling options and
-we attach validators to make sure that we get a valid email address and a long
-enough password. The `isValid` function comes from the email-validate library.
+*digestive-functors*. The form is wrapped in divs for better styling options
+and we attach validators to make sure that we get a valid email address and a
+long enough password. The `isValid` function comes from the *email-validate*
+library.
 
 ``` haskell
 
@@ -153,10 +154,10 @@ of type `Html`.
 
 Now for the request handler, which is where most of the action will take place.
 We want to make our lives easy, so we call in the help of the
-digestive-functors-snap library, which provides the `eitherSnapForm` function.
-This function can be applied to a digestive-functors form and a form name,
-after which it will use the Snap API to parse the request. Before continueing,
-lets have a look at some code:
+*digestive-functors-snap* library, which provides the `eitherSnapForm`
+function. This function can be applied to a *digestive-functors* form and a
+form name, after which it will use the Snap API to parse the request. Before
+continuing, lets have a look at some code:
 
 ``` haskell
 
@@ -203,7 +204,7 @@ error messages--is done by adding nothing but a single element to the template.
 </html>
 ```
 
-With this, we have seen how to use digestive-functors and Heist together in a
+With this, we have seen how to use *digestive-functors* and Heist together in a
 win-win scenario. On the one hand you mostly maintain your separation of
 concerns by using Heist for most of your HTML output, while on the other hand
-you can enjoy the great digestive-functors library as-is.
+you can enjoy the great *digestive-functors* library as-is.

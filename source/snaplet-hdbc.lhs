@@ -327,8 +327,9 @@ database of your choosing.
 Using `resource-pool`
 ---------------------
 
-The snaplet comes with support for the `resource-pool` package built-in. If you
-wish to use it, change the type of the subsnaplet from
+The snaplet comes with support for the `resource-pool-catchio` (a
+`MonadCatchIO`-based port of `resource-pool`) package built-in. If you wish to
+use it, change the type of the subsnaplet from
 
 ```haskell
 
