@@ -132,6 +132,7 @@ extensions and define our imports first.</p>
 <span class='line-number'>20</span>
 <span class='line-number'>21</span>
 <span class='line-number'>22</span>
+<span class='line-number'>23</span>
 </pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="o">&gt;</span> <span class="cm">{-# LANGUAGE TemplateHaskell #-}</span>
 </span><span class='line'><span class="o">&gt;</span> <span class="cm">{-# LANGUAGE FlexibleInstances #-}</span>
 </span><span class='line'><span class="o">&gt;</span> <span class="cm">{-# LANGUAGE MultiParamTypeClasses #-}</span>
@@ -144,6 +145,7 @@ extensions and define our imports first.</p>
 </span><span class='line'><span class="o">&gt;</span> <span class="kr">import</span>            <span class="nn">Data.ByteString.Char8</span> <span class="p">(</span><span class="kt">ByteString</span><span class="p">)</span>
 </span><span class='line'><span class="o">&gt;</span> <span class="kr">import</span> <span class="k">qualified</span>  <span class="nn">Data.ByteString.Char8</span> <span class="k">as</span> <span class="n">BS</span>
 </span><span class='line'><span class="o">&gt;</span> <span class="kr">import</span>            <span class="nn">Data.Lens.Template</span>
+</span><span class='line'><span class="o">&gt;</span> <span class="kr">import</span>            <span class="nn">Data.Map</span> <span class="p">((</span><span class="o">!</span><span class="p">))</span>
 </span><span class='line'><span class="o">&gt;</span> <span class="kr">import</span>            <span class="nn">Data.Maybe</span>
 </span><span class='line'><span class="o">&gt;</span> <span class="kr">import</span>            <span class="nn">Data.String</span>
 </span><span class='line'><span class="o">&gt;</span> <span class="kr">import</span>            <span class="nn">Database.HDBC.Sqlite3</span>
@@ -309,7 +311,7 @@ function to retrieve them based on the value of some integer:</p>
 </span><span class='line'><span class="o">&gt;</span>   <span class="n">rows</span> <span class="ow">&lt;-</span> <span class="n">query</span> <span class="s">&quot;SELECT * FROM messages WHERE somenum = ?&quot;</span> <span class="p">[</span><span class="n">toSql</span> <span class="n">n</span><span class="p">]</span>
 </span><span class='line'><span class="o">&gt;</span>   <span class="n">return</span> <span class="o">$</span> <span class="n">map</span> <span class="n">toMsg</span> <span class="n">rows</span>
 </span><span class='line'><span class="o">&gt;</span>   <span class="kr">where</span> <span class="n">toMsg</span> <span class="ow">::</span> <span class="kt">Row</span> <span class="ow">-&gt;</span> <span class="kt">Message</span>
-</span><span class='line'><span class="o">&gt;</span>         <span class="n">toMsg</span> <span class="ow">=</span> <span class="n">undefined</span>
+</span><span class='line'><span class="o">&gt;</span>         <span class="n">toMsg</span> <span class="n">rw</span> <span class="ow">=</span> <span class="kt">Message</span> <span class="o">$</span> <span class="n">fromSql</span> <span class="p">(</span><span class="n">rw</span> <span class="o">!</span> <span class="s">&quot;msgcol&quot;</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
