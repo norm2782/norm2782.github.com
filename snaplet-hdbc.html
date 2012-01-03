@@ -439,8 +439,9 @@ database of your choosing.</p>
 
 <h2>Using <code>resource-pool</code></h2>
 
-<p>The snaplet comes with support for the <code>resource-pool</code> package built-in. If you
-wish to use it, change the type of the subsnaplet from</p>
+<p>The snaplet comes with support for the <code>resource-pool-catchio</code> (a
+<code>MonadCatchIO</code>-based port of <code>resource-pool</code>) package built-in. If you wish to
+use it, change the type of the subsnaplet from</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='haskell'><span class='line'>  <span class="p">,</span> <span class="n">_dbLens</span>   <span class="ow">::</span> <span class="kt">Snaplet</span> <span class="p">(</span><span class="kt">HdbcSnaplet</span> <span class="kt">Connection</span> <span class="kt">IO</span><span class="p">)</span>
