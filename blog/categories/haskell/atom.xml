@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Haskell | Norm 2782]]></title>
   <link href="http://norm2782.github.com/blog/categories/haskell/atom.xml" rel="self"/>
   <link href="http://norm2782.github.com/"/>
-  <updated>2012-01-02T15:19:27+01:00</updated>
+  <updated>2012-01-03T08:54:25+01:00</updated>
   <id>http://norm2782.github.com/</id>
   <author>
     <name><![CDATA[Jurriën Stutterheim]]></name>
@@ -115,10 +115,10 @@ datatype:</p>
 
 <p>```</p>
 
-<p>Defining the form is straight-forward if you are used to working with digestive-functors.
-The form is wrapped in divs for better styling options and we attach validators to make
-sure that we get a valid email address and a long enough password. The <code>isValid</code> function
-comes from the email-validate library.</p>
+<p>Defining the form is straight-forward if you are used to working with
+digestive-functors. The form is wrapped in divs for better styling options and
+we attach validators to make sure that we get a valid email address and a long
+enough password. The <code>isValid</code> function comes from the email-validate library.</p>
 
 <p>``` haskell</p>
 
@@ -160,8 +160,9 @@ longPwd  =  check "Password needs to be at least six characters long"</p>
 
 <p>```</p>
 
-<p>Up to this point we have not seen anything new yet, so lets start with something a bit
-more interesting. For most of my Snap apps I use the following function to render a form:</p>
+<p>Up to this point we have not seen anything new yet, so lets start with
+something a bit more interesting. For most of my Snap apps I use the following
+function to render a form:</p>
 
 <p>``` haskell</p>
 
@@ -175,15 +176,17 @@ showForm act mth frm =
 
 <p>```</p>
 
-<p>It takes an <code>AttributeValue</code> containing the target of the form, an <code>AttributeValue</code> containing
-the HTTP request method and a form as produced by the <code>eitherSnapForm</code> function we will see
-below, resulting in a rendered form of type <code>Html</code>.</p>
+<p>It takes an <code>AttributeValue</code> containing the target of the form, an
+<code>AttributeValue</code> containing the HTTP request method and a form as produced by
+the <code>eitherSnapForm</code> function we will see below, resulting in a rendered form
+of type <code>Html</code>.</p>
 
-<p>Now for the request handler, which is where most of the action will take place. We want to
-make our lives easy, so we call in the help of the digestive-functors-snap library, which
-provides the <code>eitherSnapForm</code> function. This function can be applied to a digestive-functors
-form and a form name, after which it will use the Snap API to parse the request. Before
-continueing, lets have a look at some code:</p>
+<p>Now for the request handler, which is where most of the action will take place.
+We want to make our lives easy, so we call in the help of the
+digestive-functors-snap library, which provides the <code>eitherSnapForm</code> function.
+This function can be applied to a digestive-functors form and a form name,
+after which it will use the Snap API to parse the request. Before continueing,
+lets have a look at some code:</p>
 
 <p>``` haskell</p>
 
@@ -200,23 +203,26 @@ Right (LoginData e p r) -&gt; writeBS "Success!"
 
 <p>```</p>
 
-<p>The result of <code>eitherSnapForm</code> is an <code>Either</code> value. When the form has not been submitted yet,
-or if a submitted form failed validation, the result will be a <code>Left</code> constructor containing
-a form of type <code>FormHtml (HtmlM a)</code>. When a form has been submitted and has succesfully passed
-validation, we will get a <code>Right</code> value containing the constructor applied in our form (in this
-case the <code>LoginData</code> constructor).</p>
+<p>The result of <code>eitherSnapForm</code> is an <code>Either</code> value. When the form has not been
+submitted yet, or if a submitted form failed validation, the result will be a
+<code>Left</code> constructor containing a form of type <code>FormHtml (HtmlM a)</code>. When a form
+has been submitted and has succesfully passed validation, we will get a <code>Right</code>
+value containing the constructor applied in our form (in this case the
+<code>LoginData</code> constructor).</p>
 
-<p>Rendering the form is done when we get a <code>Left</code> result. As it turns out, it is almost trivially
-easy to render the form in Heist. To bind the form as a Heist splice, we first need to render it
-to an <code>Html</code> value using our <code>showForm</code> function. Since Heist cannot work with values of type
-<code>Html</code>, we have to convert the <code>Html</code> to something Heist does understand. Luckily, the xmlhtml
-library provides us with a function that does just that: <code>renderHtmlNodes :: Html -&gt; [Node]</code>.
-Heist loves a list of <code>Node</code>s, so all we need to do is <code>return</code> it to the <code>Splice</code> context so
-we can bind it as a splice to our template.</p>
+<p>Rendering the form is done when we get a <code>Left</code> result. As it turns out, it is
+almost trivially easy to render the form in Heist. To bind the form as a Heist
+splice, we first need to render it to an <code>Html</code> value using our <code>showForm</code>
+function. Since Heist cannot work with values of type <code>Html</code>, we have to
+convert the <code>Html</code> to something Heist does understand. Luckily, the xmlhtml
+library provides us with a function that does just that: <code>renderHtmlNodes ::
+Html -&gt; [Node]</code>. Heist loves a list of <code>Node</code>s, so all we need to do is
+<code>return</code> it to the <code>Splice</code> context so we can bind it as a splice to our
+template.</p>
 
-<p>The final piece of the puzzle is the template in which the form needs to be rendered. As you can
-see, rendering the form--including potential validation error messages--is done by adding nothing
-but a single element to the template.</p>
+<p>The final piece of the puzzle is the template in which the form needs to be
+rendered. As you can see, rendering the form--including potential validation
+error messages--is done by adding nothing but a single element to the template.</p>
 
 <p>``` xml
 <html>
@@ -235,9 +241,10 @@ but a single element to the template.</p>
 </html>
 ```</p>
 
-<p>With this, we have seen how to use digestive-functors and Heist together in a win-win scenario.
-On the one hand you mostly maintain your separation of concerns by using Heist for most of your
-HTML output, while on the other hand you can enjoy the great digestive-functors library as-is.</p>
+<p>With this, we have seen how to use digestive-functors and Heist together in a
+win-win scenario. On the one hand you mostly maintain your separation of
+concerns by using Heist for most of your HTML output, while on the other hand
+you can enjoy the great digestive-functors library as-is.</p>
 ]]></content>
   </entry>
   

@@ -2,14 +2,18 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
         <loc>http://norm2782.github.com/blog/2012/01/01/using-digestive-functors-with-heist/</loc>
-        <lastmod>2012-01-02T11:02:47+01:00</lastmod>
+        <lastmod>2012-01-02T15:22:45+01:00</lastmod>
     </url>
     <url>
         <loc>http://norm2782.github.com/blog/archives/</loc>
-        <lastmod>2012-01-02T11:02:47+01:00</lastmod>
+        <lastmod>2012-01-02T15:22:45+01:00</lastmod>
     </url>
     <url>
         <loc>http://norm2782.github.com/</loc>
-        <lastmod>2012-01-02T11:02:47+01:00</lastmod>
+        <lastmod>2012-01-02T15:22:45+01:00</lastmod>
+    </url>
+    <url>
+        <loc>http://norm2782.github.com/snaplet-hdbc.html</loc>
+        <lastmod>2012-01-03T08:46:24+01:00</lastmod>
     </url>
 </urlset>
