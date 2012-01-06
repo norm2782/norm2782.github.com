@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Heist | Norm 2782]]></title>
   <link href="http://norm2782.github.com/blog/categories/heist/atom.xml" rel="self"/>
   <link href="http://norm2782.github.com/"/>
-  <updated>2012-01-06T08:32:17+01:00</updated>
+  <updated>2012-01-06T08:35:59+01:00</updated>
   <id>http://norm2782.github.com/</id>
   <author>
     <name><![CDATA[Jurriën Stutterheim]]></name>
@@ -37,7 +37,7 @@ templates with Heist (again:
 case, you might want to read some of the tutorials on the Snap website first.
 This post also assumes that you know how to work with the <em>digestive-functors</em>
 library (see
-<a href="http://jaspervdj.be/posts/2010-12-09-digestive-functors-0.0.2.html">onef of</a>
+<a href="http://jaspervdj.be/posts/2010-12-09-digestive-functors-0.0.2.html">one of</a>
 <a href="http://jaspervdj.be/tmp/digestive-functors.pdf">Jasper's tutorials</a>).</p>
 
 <p>Since this post is written as a Literate Haskell file, we first define
