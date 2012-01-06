@@ -16,11 +16,16 @@ errors, in a Heist template.
 Currently this post is secretly just here to allow me to play with
 Octopress.
 
-This post assumes you are familiar with the snaplet infrastructure and
-that you are more or less comfortable with defining routes and rendering
-templates with Heist. If this is not the case, you might want to read
-some of the tutorials on the Snap website first. This post also assumes
-that you know how to work with the *digestive-functors* library.
+This post assumes you are familiar with the snaplet infrastructure
+(if not: [tutorial](http://snapframework.com/docs/tutorials/snaplets-tutorial))
+and that you are more or less comfortable with defining routes and rendering
+templates with Heist (again:
+[tutorial](http://snapframework.com/docs/tutorials/heist)). If this is not the
+case, you might want to read some of the tutorials on the Snap website first.
+This post also assumes that you know how to work with the *digestive-functors*
+library (see
+[one of](http://jaspervdj.be/posts/2010-12-09-digestive-functors-0.0.2.html)
+[Jasper's tutorials](http://jaspervdj.be/tmp/digestive-functors.pdf)).
 
 Since this post is written as a Literate Haskell file, we first define
 some imports and other boilerplate:
