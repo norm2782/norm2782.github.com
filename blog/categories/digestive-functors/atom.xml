@@ -4,7 +4,7 @@
   <title><![CDATA[Category: digestive-functors | Norm 2782]]></title>
   <link href="http://norm2782.github.com/blog/categories/digestive-functors/atom.xml" rel="self"/>
   <link href="http://norm2782.github.com/"/>
-  <updated>2012-01-05T22:45:46+01:00</updated>
+  <updated>2012-01-06T08:28:49+01:00</updated>
   <id>http://norm2782.github.com/</id>
   <author>
     <name><![CDATA[Jurriën Stutterheim]]></name>
@@ -29,11 +29,15 @@ errors, in a Heist template.</p>
 <p>Currently this post is secretly just here to allow me to play with
 Octopress.</p>
 
-<p>This post assumes you are familiar with the snaplet infrastructure and
-that you are more or less comfortable with defining routes and rendering
-templates with Heist. If this is not the case, you might want to read
-some of the tutorials on the Snap website first. This post also assumes
-that you know how to work with the <em>digestive-functors</em> library.</p>
+<p>This post assumes you are familiar with the snaplet infrastructure
+(if not: <a href="http://snapframework.com/docs/tutorials/snaplets-tutorial">tutorial</a>)
+and that you are more or less comfortable with defining routes and rendering
+templates with Heist (again:
+<a href="http://snapframework.com/docs/tutorials/heist">tutorial</a>). If this is not the
+case, you might want to read some of the tutorials on the Snap website first.
+This post also assumes that you know how to work with the <em>digestive-functors</em>
+library
+(<a href="http://jaspervdj.be/tmp/digestive-functors.pdf">see Jasper's tutorial</a>).</p>
 
 <p>Since this post is written as a Literate Haskell file, we first define
 some imports and other boilerplate:</p>
