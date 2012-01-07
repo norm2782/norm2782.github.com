@@ -145,29 +145,29 @@ extensions and define our imports first.</p>
 <span class='line-number'>21</span>
 <span class='line-number'>22</span>
 <span class='line-number'>23</span>
-</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="o">&gt;</span> <span class="cm">{-# LANGUAGE TemplateHaskell #-}</span>
-</span><span class='line'><span class="o">&gt;</span> <span class="cm">{-# LANGUAGE FlexibleInstances #-}</span>
-</span><span class='line'><span class="o">&gt;</span> <span class="cm">{-# LANGUAGE MultiParamTypeClasses #-}</span>
-</span><span class='line'><span class="o">&gt;</span> <span class="cm">{-# LANGUAGE OverloadedStrings #-}</span>
-</span><span class='line'><span class="o">&gt;</span>
-</span><span class='line'><span class="o">&gt;</span> <span class="kr">module</span> <span class="nn">Application</span> <span class="kr">where</span>
-</span><span class='line'><span class="o">&gt;</span>
-</span><span class='line'><span class="o">&gt;</span> <span class="kr">import</span>            <span class="nn">Control.Monad</span>
-</span><span class='line'><span class="o">&gt;</span> <span class="kr">import</span>            <span class="nn">Control.Monad.State</span>
-</span><span class='line'><span class="o">&gt;</span> <span class="kr">import</span>            <span class="nn">Data.ByteString.Char8</span> <span class="p">(</span><span class="kt">ByteString</span><span class="p">)</span>
-</span><span class='line'><span class="o">&gt;</span> <span class="kr">import</span> <span class="k">qualified</span>  <span class="nn">Data.ByteString.Char8</span> <span class="k">as</span> <span class="n">BS</span>
-</span><span class='line'><span class="o">&gt;</span> <span class="kr">import</span>            <span class="nn">Data.Lens.Template</span>
-</span><span class='line'><span class="o">&gt;</span> <span class="kr">import</span>            <span class="nn">Data.Map</span> <span class="p">((</span><span class="o">!</span><span class="p">))</span>
-</span><span class='line'><span class="o">&gt;</span> <span class="kr">import</span>            <span class="nn">Data.Maybe</span>
-</span><span class='line'><span class="o">&gt;</span> <span class="kr">import</span>            <span class="nn">Data.String</span>
-</span><span class='line'><span class="o">&gt;</span> <span class="kr">import</span>            <span class="nn">Database.HDBC.Sqlite3</span>
-</span><span class='line'><span class="o">&gt;</span> <span class="kr">import</span>            <span class="nn">Snap.Core</span>
-</span><span class='line'><span class="o">&gt;</span> <span class="kr">import</span>            <span class="nn">Snap.Snaplet</span>
-</span><span class='line'><span class="o">&gt;</span> <span class="kr">import</span>            <span class="nn">Snap.Snaplet.Auth</span>
-</span><span class='line'><span class="o">&gt;</span> <span class="kr">import</span>            <span class="nn">Snap.Snaplet.Auth.Backends.Hdbc</span>
-</span><span class='line'><span class="o">&gt;</span> <span class="kr">import</span>            <span class="nn">Snap.Snaplet.Hdbc</span>
-</span><span class='line'><span class="o">&gt;</span> <span class="kr">import</span>            <span class="nn">Snap.Snaplet.Session</span>
-</span><span class='line'><span class="o">&gt;</span> <span class="kr">import</span>            <span class="nn">Snap.Snaplet.Session.Backends.CookieSession</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'> <span class="cm">{-# LANGUAGE TemplateHaskell #-}</span>
+</span><span class='line'> <span class="cm">{-# LANGUAGE FlexibleInstances #-}</span>
+</span><span class='line'> <span class="cm">{-# LANGUAGE MultiParamTypeClasses #-}</span>
+</span><span class='line'> <span class="cm">{-# LANGUAGE OverloadedStrings #-}</span>
+</span><span class='line'>
+</span><span class='line'> <span class="kr">module</span> <span class="nn">Application</span> <span class="kr">where</span>
+</span><span class='line'>
+</span><span class='line'> <span class="kr">import</span>            <span class="nn">Control.Monad</span>
+</span><span class='line'> <span class="kr">import</span>            <span class="nn">Control.Monad.State</span>
+</span><span class='line'> <span class="kr">import</span>            <span class="nn">Data.ByteString.Char8</span> <span class="p">(</span><span class="kt">ByteString</span><span class="p">)</span>
+</span><span class='line'> <span class="kr">import</span> <span class="k">qualified</span>  <span class="nn">Data.ByteString.Char8</span> <span class="k">as</span> <span class="n">BS</span>
+</span><span class='line'> <span class="kr">import</span>            <span class="nn">Data.Lens.Template</span>
+</span><span class='line'> <span class="kr">import</span>            <span class="nn">Data.Map</span> <span class="p">((</span><span class="o">!</span><span class="p">))</span>
+</span><span class='line'> <span class="kr">import</span>            <span class="nn">Data.Maybe</span>
+</span><span class='line'> <span class="kr">import</span>            <span class="nn">Data.String</span>
+</span><span class='line'> <span class="kr">import</span>            <span class="nn">Database.HDBC.Sqlite3</span>
+</span><span class='line'> <span class="kr">import</span>            <span class="nn">Snap.Core</span>
+</span><span class='line'> <span class="kr">import</span>            <span class="nn">Snap.Snaplet</span>
+</span><span class='line'> <span class="kr">import</span>            <span class="nn">Snap.Snaplet.Auth</span>
+</span><span class='line'> <span class="kr">import</span>            <span class="nn">Snap.Snaplet.Auth.Backends.Hdbc</span>
+</span><span class='line'> <span class="kr">import</span>            <span class="nn">Snap.Snaplet.Hdbc</span>
+</span><span class='line'> <span class="kr">import</span>            <span class="nn">Snap.Snaplet.Session</span>
+</span><span class='line'> <span class="kr">import</span>            <span class="nn">Snap.Snaplet.Session.Backends.CookieSession</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -186,14 +186,14 @@ corresponding lenses:</p>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="o">&gt;</span> <span class="kr">data</span> <span class="kt">App</span>
-</span><span class='line'><span class="o">&gt;</span>   <span class="ow">=</span> <span class="kt">App</span>
-</span><span class='line'><span class="o">&gt;</span>   <span class="p">{</span> <span class="n">_authLens</span> <span class="ow">::</span> <span class="kt">Snaplet</span> <span class="p">(</span><span class="kt">AuthManager</span> <span class="kt">App</span><span class="p">)</span>
-</span><span class='line'><span class="o">&gt;</span>   <span class="p">,</span> <span class="n">_sessLens</span> <span class="ow">::</span> <span class="kt">Snaplet</span> <span class="kt">SessionManager</span>
-</span><span class='line'><span class="o">&gt;</span>   <span class="p">,</span> <span class="n">_dbLens</span>   <span class="ow">::</span> <span class="kt">Snaplet</span> <span class="p">(</span><span class="kt">HdbcSnaplet</span> <span class="kt">Connection</span> <span class="kt">IO</span><span class="p">)</span>
-</span><span class='line'><span class="o">&gt;</span>   <span class="p">}</span>
-</span><span class='line'><span class="o">&gt;</span>
-</span><span class='line'><span class="o">&gt;</span> <span class="n">makeLens</span> <span class="sc">&#39;&#39;</span><span class="kt">App</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'> <span class="kr">data</span> <span class="kt">App</span>
+</span><span class='line'>   <span class="ow">=</span> <span class="kt">App</span>
+</span><span class='line'>   <span class="p">{</span> <span class="n">_authLens</span> <span class="ow">::</span> <span class="kt">Snaplet</span> <span class="p">(</span><span class="kt">AuthManager</span> <span class="kt">App</span><span class="p">)</span>
+</span><span class='line'>   <span class="p">,</span> <span class="n">_sessLens</span> <span class="ow">::</span> <span class="kt">Snaplet</span> <span class="kt">SessionManager</span>
+</span><span class='line'>   <span class="p">,</span> <span class="n">_dbLens</span>   <span class="ow">::</span> <span class="kt">Snaplet</span> <span class="p">(</span><span class="kt">HdbcSnaplet</span> <span class="kt">Connection</span> <span class="kt">IO</span><span class="p">)</span>
+</span><span class='line'>   <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'> <span class="n">makeLens</span> <span class="sc">&#39;&#39;</span><span class="kt">App</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -218,17 +218,17 @@ initialiser:</p>
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="o">&gt;</span> <span class="n">tutorialAppInit</span> <span class="ow">::</span> <span class="kt">SnapletInit</span> <span class="kt">App</span> <span class="kt">App</span>
-</span><span class='line'><span class="o">&gt;</span> <span class="n">tutorialAppInit</span> <span class="ow">=</span> <span class="n">makeSnaplet</span> <span class="s">&quot;snaplet-hdbc-tutorial&quot;</span>
-</span><span class='line'><span class="o">&gt;</span>   <span class="s">&quot;A tutorial snaplet showing the use of snaplet-hdbc&quot;</span> <span class="kt">Nothing</span> <span class="o">$</span> <span class="kr">do</span>
-</span><span class='line'><span class="o">&gt;</span>     <span class="n">addRoutes</span>  <span class="p">[</span> <span class="p">(</span><span class="s">&quot;/some/:num&quot;</span><span class="p">,</span>  <span class="n">someNumHandler</span><span class="p">)</span> <span class="p">]</span>
-</span><span class='line'><span class="o">&gt;</span>     <span class="n">_sesslens&#39;</span> <span class="ow">&lt;-</span> <span class="n">nestSnaplet</span> <span class="s">&quot;session&quot;</span> <span class="n">sessLens</span> <span class="o">$</span> <span class="n">initCookieSessionManager</span>
-</span><span class='line'><span class="o">&gt;</span>                     <span class="s">&quot;config/site_key.txt&quot;</span> <span class="s">&quot;_session&quot;</span> <span class="kt">Nothing</span>
-</span><span class='line'><span class="o">&gt;</span>     <span class="kr">let</span> <span class="n">sqli</span> <span class="ow">=</span> <span class="n">connectSqlite3</span> <span class="s">&quot;resources/tutorial.db&quot;</span>
-</span><span class='line'><span class="o">&gt;</span>     <span class="n">_dblens&#39;</span>   <span class="ow">&lt;-</span> <span class="n">nestSnaplet</span> <span class="s">&quot;hdbc&quot;</span> <span class="n">dbLens</span> <span class="o">$</span> <span class="n">hdbcInit</span> <span class="n">sqli</span>
-</span><span class='line'><span class="o">&gt;</span>     <span class="n">_authlens&#39;</span> <span class="ow">&lt;-</span> <span class="n">nestSnaplet</span> <span class="s">&quot;auth&quot;</span> <span class="n">authLens</span> <span class="o">$</span> <span class="n">initHdbcAuthManager</span>
-</span><span class='line'><span class="o">&gt;</span>                     <span class="n">defAuthSettings</span> <span class="n">sessLens</span> <span class="n">sqli</span> <span class="n">defAuthTable</span> <span class="n">defQueries</span>
-</span><span class='line'><span class="o">&gt;</span>     <span class="n">return</span>  <span class="o">$</span> <span class="kt">App</span> <span class="n">_authlens&#39;</span> <span class="n">_sesslens&#39;</span> <span class="n">_dblens&#39;</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'> <span class="n">tutorialAppInit</span> <span class="ow">::</span> <span class="kt">SnapletInit</span> <span class="kt">App</span> <span class="kt">App</span>
+</span><span class='line'> <span class="n">tutorialAppInit</span> <span class="ow">=</span> <span class="n">makeSnaplet</span> <span class="s">&quot;snaplet-hdbc-tutorial&quot;</span>
+</span><span class='line'>   <span class="s">&quot;A tutorial snaplet showing the use of snaplet-hdbc&quot;</span> <span class="kt">Nothing</span> <span class="o">$</span> <span class="kr">do</span>
+</span><span class='line'>     <span class="n">addRoutes</span>  <span class="p">[</span> <span class="p">(</span><span class="s">&quot;/some/:num&quot;</span><span class="p">,</span>  <span class="n">someNumHandler</span><span class="p">)</span> <span class="p">]</span>
+</span><span class='line'>     <span class="n">_sesslens&#39;</span> <span class="ow">&lt;-</span> <span class="n">nestSnaplet</span> <span class="s">&quot;session&quot;</span> <span class="n">sessLens</span> <span class="o">$</span> <span class="n">initCookieSessionManager</span>
+</span><span class='line'>                     <span class="s">&quot;config/site_key.txt&quot;</span> <span class="s">&quot;_session&quot;</span> <span class="kt">Nothing</span>
+</span><span class='line'>     <span class="kr">let</span> <span class="n">sqli</span> <span class="ow">=</span> <span class="n">connectSqlite3</span> <span class="s">&quot;resources/tutorial.db&quot;</span>
+</span><span class='line'>     <span class="n">_dblens&#39;</span>   <span class="ow">&lt;-</span> <span class="n">nestSnaplet</span> <span class="s">&quot;hdbc&quot;</span> <span class="n">dbLens</span> <span class="o">$</span> <span class="n">hdbcInit</span> <span class="n">sqli</span>
+</span><span class='line'>     <span class="n">_authlens&#39;</span> <span class="ow">&lt;-</span> <span class="n">nestSnaplet</span> <span class="s">&quot;auth&quot;</span> <span class="n">authLens</span> <span class="o">$</span> <span class="n">initHdbcAuthManager</span>
+</span><span class='line'>                     <span class="n">defAuthSettings</span> <span class="n">sessLens</span> <span class="n">sqli</span> <span class="n">defAuthTable</span> <span class="n">defQueries</span>
+</span><span class='line'>     <span class="n">return</span>  <span class="o">$</span> <span class="kt">App</span> <span class="n">_authlens&#39;</span> <span class="n">_sesslens&#39;</span> <span class="n">_dblens&#39;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -316,14 +316,14 @@ function to retrieve them based on the value of some integer:</p>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="o">&gt;</span> <span class="kr">data</span> <span class="kt">Message</span> <span class="ow">=</span> <span class="kt">Message</span> <span class="kt">String</span> <span class="kr">deriving</span> <span class="kt">Show</span>
-</span><span class='line'><span class="o">&gt;</span>
-</span><span class='line'><span class="o">&gt;</span> <span class="n">getMessages</span> <span class="ow">::</span> <span class="kt">HasHdbc</span> <span class="n">m</span> <span class="n">c</span> <span class="n">s</span> <span class="ow">=&gt;</span> <span class="kt">ByteString</span> <span class="ow">-&gt;</span> <span class="n">m</span> <span class="p">[</span><span class="kt">Message</span><span class="p">]</span>
-</span><span class='line'><span class="o">&gt;</span> <span class="n">getMessages</span> <span class="n">n</span> <span class="ow">=</span> <span class="kr">do</span>
-</span><span class='line'><span class="o">&gt;</span>   <span class="n">rows</span> <span class="ow">&lt;-</span> <span class="n">query</span> <span class="s">&quot;SELECT * FROM messages WHERE somenum = ?&quot;</span> <span class="p">[</span><span class="n">toSql</span> <span class="n">n</span><span class="p">]</span>
-</span><span class='line'><span class="o">&gt;</span>   <span class="n">return</span> <span class="o">$</span> <span class="n">map</span> <span class="n">toMsg</span> <span class="n">rows</span>
-</span><span class='line'><span class="o">&gt;</span>   <span class="kr">where</span> <span class="n">toMsg</span> <span class="ow">::</span> <span class="kt">Row</span> <span class="ow">-&gt;</span> <span class="kt">Message</span>
-</span><span class='line'><span class="o">&gt;</span>         <span class="n">toMsg</span> <span class="n">rw</span> <span class="ow">=</span> <span class="kt">Message</span> <span class="o">$</span> <span class="n">fromSql</span> <span class="p">(</span><span class="n">rw</span> <span class="o">!</span> <span class="s">&quot;msgcol&quot;</span><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'> <span class="kr">data</span> <span class="kt">Message</span> <span class="ow">=</span> <span class="kt">Message</span> <span class="kt">String</span> <span class="kr">deriving</span> <span class="kt">Show</span>
+</span><span class='line'>
+</span><span class='line'> <span class="n">getMessages</span> <span class="ow">::</span> <span class="kt">HasHdbc</span> <span class="n">m</span> <span class="n">c</span> <span class="n">s</span> <span class="ow">=&gt;</span> <span class="kt">ByteString</span> <span class="ow">-&gt;</span> <span class="n">m</span> <span class="p">[</span><span class="kt">Message</span><span class="p">]</span>
+</span><span class='line'> <span class="n">getMessages</span> <span class="n">n</span> <span class="ow">=</span> <span class="kr">do</span>
+</span><span class='line'>   <span class="n">rows</span> <span class="ow">&lt;-</span> <span class="n">query</span> <span class="s">&quot;SELECT * FROM messages WHERE somenum = ?&quot;</span> <span class="p">[</span><span class="n">toSql</span> <span class="n">n</span><span class="p">]</span>
+</span><span class='line'>   <span class="n">return</span> <span class="o">$</span> <span class="n">map</span> <span class="n">toMsg</span> <span class="n">rows</span>
+</span><span class='line'>   <span class="kr">where</span> <span class="n">toMsg</span> <span class="ow">::</span> <span class="kt">Row</span> <span class="ow">-&gt;</span> <span class="kt">Message</span>
+</span><span class='line'>         <span class="n">toMsg</span> <span class="n">rw</span> <span class="ow">=</span> <span class="kt">Message</span> <span class="o">$</span> <span class="n">fromSql</span> <span class="p">(</span><span class="n">rw</span> <span class="o">!</span> <span class="s">&quot;msgcol&quot;</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -376,7 +376,8 @@ know the type of <code>m</code>, we also know the corresponding types of <code>c
 now do things with a connection, even if we only know in which monad we are.
 The downside is that we cannot use two different adapter types with our
 application handlers. The typeclass defines an expression <code>getHdbcState</code>, which
-only requires you to yield the snaplet&#8217;s state type in the context of monad <code>m</code>.</p>
+only requires you to yield the snaplet&#8217;s state type in the context of monad
+<code>m</code>.</p>
 
 <p>Getting back to our application, we want to define an instance of <code>HasHdbc</code> for
 our application&#8217;s handlers and we want the <code>getHdbcState</code> expression to give us
@@ -419,12 +420,12 @@ parameterise a database query:</p>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="o">&gt;</span> <span class="n">someNumHandler</span> <span class="ow">::</span> <span class="kt">Handler</span> <span class="kt">App</span> <span class="kt">App</span> <span class="nb">()</span>
-</span><span class='line'><span class="o">&gt;</span> <span class="n">someNumHandler</span> <span class="ow">=</span> <span class="kr">do</span>
-</span><span class='line'><span class="o">&gt;</span>   <span class="n">mnum</span> <span class="ow">&lt;-</span> <span class="n">getParam</span> <span class="s">&quot;num&quot;</span>
-</span><span class='line'><span class="o">&gt;</span>   <span class="kr">let</span> <span class="n">n</span> <span class="ow">=</span> <span class="n">fromMaybe</span> <span class="s">&quot;11&quot;</span> <span class="n">mnum</span>
-</span><span class='line'><span class="o">&gt;</span>   <span class="n">msgs</span> <span class="ow">&lt;-</span> <span class="n">getMessages</span> <span class="n">n</span>
-</span><span class='line'><span class="o">&gt;</span>   <span class="n">writeBS</span> <span class="o">.</span> <span class="kt">BS</span><span class="o">.</span><span class="n">pack</span> <span class="o">$</span> <span class="n">show</span> <span class="n">msgs</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'> <span class="n">someNumHandler</span> <span class="ow">::</span> <span class="kt">Handler</span> <span class="kt">App</span> <span class="kt">App</span> <span class="nb">()</span>
+</span><span class='line'> <span class="n">someNumHandler</span> <span class="ow">=</span> <span class="kr">do</span>
+</span><span class='line'>   <span class="n">mnum</span> <span class="ow">&lt;-</span> <span class="n">getParam</span> <span class="s">&quot;num&quot;</span>
+</span><span class='line'>   <span class="kr">let</span> <span class="n">n</span> <span class="ow">=</span> <span class="n">fromMaybe</span> <span class="s">&quot;11&quot;</span> <span class="n">mnum</span>
+</span><span class='line'>   <span class="n">msgs</span> <span class="ow">&lt;-</span> <span class="n">getMessages</span> <span class="n">n</span>
+</span><span class='line'>   <span class="n">writeBS</span> <span class="o">.</span> <span class="kt">BS</span><span class="o">.</span><span class="n">pack</span> <span class="o">$</span> <span class="n">show</span> <span class="n">msgs</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -441,8 +442,8 @@ variable. This gives us the instance:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='haskell'><span class='line'><span class="o">&gt;</span> <span class="kr">instance</span> <span class="kt">HasHdbc</span> <span class="p">(</span><span class="kt">Handler</span> <span class="n">b</span> <span class="kt">App</span><span class="p">)</span> <span class="kt">Connection</span> <span class="kt">IO</span> <span class="kr">where</span>
-</span><span class='line'><span class="o">&gt;</span>   <span class="n">getHdbcState</span> <span class="ow">=</span> <span class="n">with</span> <span class="n">dbLens</span> <span class="n">get</span>
+</pre></td><td class='code'><pre><code class='haskell'><span class='line'> <span class="kr">instance</span> <span class="kt">HasHdbc</span> <span class="p">(</span><span class="kt">Handler</span> <span class="n">b</span> <span class="kt">App</span><span class="p">)</span> <span class="kt">Connection</span> <span class="kt">IO</span> <span class="kr">where</span>
+</span><span class='line'>   <span class="n">getHdbcState</span> <span class="ow">=</span> <span class="n">with</span> <span class="n">dbLens</span> <span class="n">get</span>
 </span></code></pre></td></tr></table></div></figure>
 
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Snap | Norm 2782]]></title>
   <link href="http://norm2782.github.com/blog/categories/snap/atom.xml" rel="self"/>
   <link href="http://norm2782.github.com/"/>
-  <updated>2012-01-07T16:17:34+01:00</updated>
+  <updated>2012-01-07T18:01:15+01:00</updated>
   <id>http://norm2782.github.com/</id>
   <author>
     <name><![CDATA[Jurriën Stutterheim]]></name>
@@ -43,6 +43,8 @@ library (see
 <p>Since this post is written as a Literate Haskell file, we first define
 some imports and other boilerplate:</p>
 
+<p></p>
+
 <p>``` haskell</p>
 
 <blockquote><p>{-# LANGUAGE OverloadedStrings, TemplateHaskell #-}</p>
@@ -71,11 +73,15 @@ import            Text.Templating.Heist</p></blockquote>
 
 <p>```</p>
 
+<p></p>
+
 <p>Since we are using Snap 0.7 at the moment of writing, we start by defining
 out snaplet state type, generating some lenses using Template Haskell and
 defining a handy type synonym for our handlers. We also want to use Heist,
 so we need to define a <code>HasHeist</code> instance for our <code>App</code> type as well.
 And, since this is a snaplet, we need to define our snaplet initialiser.</p>
+
+<p></p>
 
 <p>``` haskell</p>
 
@@ -103,12 +109,16 @@ return $ App h
 
 <p>```</p>
 
+<p></p>
+
 <p>Having written all the boilerplate, we can get started with defining our form.
 In this case it's a simple login form with a plain textfield, a password field,
 a remember me checkbox and a login button.</p>
 
 <p>When the form has been validated, we want to store the form data in a custom
 datatype:</p>
+
+<p></p>
 
 <p>``` haskell</p>
 
@@ -120,11 +130,15 @@ datatype:</p>
 
 <p>```</p>
 
+<p></p>
+
 <p>Defining the form is straight-forward if you are used to working with
 <em>digestive-functors</em>. The form is wrapped in divs for better styling options
 and we attach validators to make sure that we get a valid email address and a
 long enough password. The <code>isValid</code> function comes from the <em>email-validate</em>
 library.</p>
+
+<p></p>
 
 <p>``` haskell</p>
 
@@ -166,9 +180,13 @@ longPwd  =  check "Password needs to be at least six characters long"</p>
 
 <p>```</p>
 
+<p></p>
+
 <p>Up to this point we have not seen anything new yet, so lets start with
 something a bit more interesting. For most of my Snap apps I use the following
 function to render a form:</p>
+
+<p></p>
 
 <p>``` haskell</p>
 
@@ -182,6 +200,8 @@ showForm act mth frm =
 
 <p>```</p>
 
+<p></p>
+
 <p>It takes an <code>AttributeValue</code> containing the target of the form, an
 <code>AttributeValue</code> containing the HTTP request method and a form as produced by
 the <code>eitherSnapForm</code> function we will see below, resulting in a rendered form
@@ -193,6 +213,8 @@ We want to make our lives easy, so we call in the help of the
 function. This function can be applied to a <em>digestive-functors</em> form and a
 form name, after which it will use the Snap API to parse the request. Before
 continuing, lets have a look at some code:</p>
+
+<p></p>
 
 <p>``` haskell</p>
 
@@ -208,6 +230,8 @@ Right (LoginData e p r) -&gt; writeBS "Success!"
 </code></pre></blockquote>
 
 <p>```</p>
+
+<p></p>
 
 <p>The result of <code>eitherSnapForm</code> is an <code>Either</code> value. When the form has not been
 submitted yet, or if a submitted form failed validation, the result will be a
