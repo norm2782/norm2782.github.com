@@ -5,6 +5,7 @@ date: 2012-01-03 08:23
 comments: true
 sharing: true
 footer: true
+lhs: https://raw.github.com/norm2782/norm2782.github.com/source/source/snaplet-hdbc.lhs
 ---
 
 About the snaplet-hdbc library
