@@ -39,6 +39,8 @@ Literate Haskell
 This tutorial is written in Literate Haskell, so we need to enable some
 extensions and define our imports first.
 
+{% bird %}
+
 ```haskell
 
 > {-# LANGUAGE TemplateHaskell #-}
@@ -67,6 +69,8 @@ extensions and define our imports first.
 
 ```
 
+{% endbird %}
+
 Snaplet state
 -------------
 
@@ -74,6 +78,8 @@ Our goal is to be able to authenticate against a database, remember the fact
 that we are logged in and then retrieve some information from the database.
 Before we can do so, we need to define our snaplet's state and generate the
 corresponding lenses:
+
+{% bird %}
 
 ```haskell
 
@@ -88,6 +94,8 @@ corresponding lenses:
 
 ```
 
+{% endbird %}
+
 The `authLens` allows us to do the actual authentication, while the `sessLens`
 allows us to remember the result of the authentication attempt. As you might
 have guessed, the `dbLens` allows us to interact with the database. The
@@ -97,6 +105,8 @@ this case, `Connection` represents a connection to our SQLite database.
 
 After having defined the application state, we can start writing our
 initialiser:
+
+{% bird %}
 
 ```haskell
 
@@ -113,6 +123,8 @@ initialiser:
 >     return  $ App _authlens' _sesslens' _dblens'
 
 ```
+
+{% endbird %}
 
 Many things are happening in this initialiser. First we define a route and a
 fallback handler, after which we initialise a session manager which stores the
@@ -190,6 +202,8 @@ the `INSERT`, `UPDATE` and `DELETE` queries.
 Now suppose we have some table containing messages, we can now define a
 function to retrieve them based on the value of some integer:
 
+{% bird %}
+
 ```haskell
 
 > data Message = Message String deriving Show
@@ -202,6 +216,8 @@ function to retrieve them based on the value of some integer:
 >         toMsg rw = Message $ fromSql (rw ! "msgcol")
 
 ```
+
+{% endbird %}
 
 Normally you would expect to apply this function in your application's
 handlers, but these query functions are not of type `Handler`, nor are they of
@@ -250,7 +266,8 @@ know the type of `m`, we also know the corresponding types of `c` and `s`". Or:
 now do things with a connection, even if we only know in which monad we are.
 The downside is that we cannot use two different adapter types with our
 application handlers. The typeclass defines an expression `getHdbcState`, which
-only requires you to yield the snaplet's state type in the context of monad `m`.
+only requires you to yield the snaplet's state type in the context of monad
+`m`.
 
 Getting back to our application, we want to define an instance of `HasHdbc` for
 our application's handlers and we want the `getHdbcState` expression to give us
@@ -290,6 +307,8 @@ with the database. Lets create the `someNumHandler` from the example
 initialiser. It reads an integer from the URL and uses that integer to
 parameterise a database query:
 
+{% bird %}
+
 ```haskell
 
 > someNumHandler :: Handler App App ()
@@ -300,6 +319,8 @@ parameterise a database query:
 >   writeBS . BS.pack $ show msgs
 
 ```
+
+{% endbird %}
 
 Since `Handler` now has a `HasHdbc` instance, we can happily execute our
 queries from the context of our handlers.
@@ -314,12 +335,16 @@ Since our implementation of `getConnSrc` is only interested in the current
 snaplet's state, we can leave the type of the first parameter to `Handler`
 variable. This gives us the instance:
 
+{% bird %}
+
 ```haskell
 
 > instance HasHdbc (Handler b App) Connection IO where
 >   getHdbcState = with dbLens get
 
 ```
+
+{% endbird %}
 
 That's it! You can now write web applications, backed by an HDBC-supported
 database of your choosing.

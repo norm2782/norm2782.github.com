@@ -31,6 +31,8 @@ library (see
 Since this post is written as a Literate Haskell file, we first define
 some imports and other boilerplate:
 
+{% bird %}
+
 ``` haskell
 
 > {-# LANGUAGE OverloadedStrings, TemplateHaskell #-}
@@ -59,11 +61,15 @@ some imports and other boilerplate:
 
 ```
 
+{% endbird %}
+
 Since we are using Snap 0.7 at the moment of writing, we start by defining
 out snaplet state type, generating some lenses using Template Haskell and
 defining a handy type synonym for our handlers. We also want to use Heist,
 so we need to define a `HasHeist` instance for our `App` type as well.
 And, since this is a snaplet, we need to define our snaplet initialiser.
+
+{% bird %}
 
 ``` haskell
 
@@ -89,12 +95,16 @@ And, since this is a snaplet, we need to define our snaplet initialiser.
 
 ```
 
+{% endbird %}
+
 Having written all the boilerplate, we can get started with defining our form.
 In this case it's a simple login form with a plain textfield, a password field,
 a remember me checkbox and a login button.
 
 When the form has been validated, we want to store the form data in a custom
 datatype:
+
+{% bird %}
 
 ``` haskell
 
@@ -106,11 +116,15 @@ datatype:
 
 ```
 
+{% endbird %}
+
 Defining the form is straight-forward if you are used to working with
 *digestive-functors*. The form is wrapped in divs for better styling options
 and we attach validators to make sure that we get a valid email address and a
 long enough password. The `isValid` function comes from the *email-validate*
 library.
+
+{% bird %}
 
 ``` haskell
 
@@ -139,9 +153,13 @@ library.
 
 ```
 
+{% endbird %}
+
 Up to this point we have not seen anything new yet, so lets start with
 something a bit more interesting. For most of my Snap apps I use the following
 function to render a form:
+
+{% bird %}
 
 ``` haskell
 
@@ -152,6 +170,8 @@ function to render a form:
 >                ! A.action act $ formHtml' >> return ()
 
 ```
+
+{% endbird %}
 
 It takes an `AttributeValue` containing the target of the form, an
 `AttributeValue` containing the HTTP request method and a form as produced by
@@ -165,6 +185,8 @@ function. This function can be applied to a *digestive-functors* form and a
 form name, after which it will use the Snap API to parse the request. Before
 continuing, lets have a look at some code:
 
+{% bird %}
+
 ``` haskell
 
 > formHandler :: AppHandler ()
@@ -177,6 +199,8 @@ continuing, lets have a look at some code:
 >     Right (LoginData e p r) -> writeBS "Success!"
 
 ```
+
+{% endbird %}
 
 The result of `eitherSnapForm` is an `Either` value. When the form has not been
 submitted yet, or if a submitted form failed validation, the result will be a
