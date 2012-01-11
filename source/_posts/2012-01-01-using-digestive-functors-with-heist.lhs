@@ -5,6 +5,7 @@ date: 2012-01-01 21:23
 comments: true
 categories: [Haskell, Snap, digestive-functors, Heist]
 lhs: https://raw.github.com/norm2782/norm2782.github.com/source/source/_posts/2012-01-01-using-digestive-functors-with-heist.lhs
+commentIssueId: 1
 ---
 
 In this post we will make *digestive-functors* and *Heist* play together

@@ -26,11 +26,15 @@ single: true
     </p>
   </footer>
 </article>
-{% if site.disqus_short_name and page.comments == true %}
-  <section>
-    <h1>Comments</h1>
-    <div id="disqus_thread" aria-live="polite">{% include post/disqus_thread.html %}</div>
-  </section>
+{% if page.comments == true %}
+<section>
+  <h1>Comments</h1>
+  <div id="comments" aria-live="polite">
+    <div id="header">
+      Want to leave a comment? Visit <a href="https://github.com/norm2782/norm2782.github.com/issues/{{page.commentIssueId}}"> this post's issue page on GitHub</a> (you'll need a GitHub account.)
+    </div>
+  </div>
+</section>
 {% endif %}
 </div>
 {% unless page.sidebar == false %}
