@@ -52,12 +52,12 @@
      function loadComments(data) {
        for (var i = 0; i < data.data.length; i++) {
          var cuser = data.data[i].user.login;
-         var cuserlink = "https://www.github.com/" + data.data[i].user.login;
+         var cuserlink = "https://github.com/" + data.data[i].user.login;
          var clink = "https://github.com/norm2782/norm2782.github.com/issues/1#issuecomment-" + data.data[i].url.substring(data.data[i].url.lastIndexOf("/")+1);
          var cbody = converter.makeHtml(data.data[i].body);
          var cgravatarlink = data.data[i].user.avatar_url.replace("s=30&", "");
          var cdate = Date.parse(data.data[i].created_at).toString("yyyy-MM-dd HH:mm:ss");
-         $("#comments").append('<div class="comment"><div class="commentheader"><div class="commentgravatar"><img src="' + cgravatarlink + '" alt="" width="20" height="20"></div><a class="commentuser" href="' + cuserlink + '">' + cuser + '</a><a class="commentdate" href="' + clink + '">' + cdate + '</a></div><div class="commentbody">' + cbody + '</div></div>');
+         $("#comments").append('<div class="comment"><div class="commentheader"><div class="commentgravatar"><img src="' + cgravatarlink + '" alt="" width="20" height="20"></div><a class="commentuser" href="' + cuserlink + '">' + cuser + '</a> <a class="commentdate" href="' + clink + '">' + cdate + '</a></div><div class="commentbody">' + cbody + '</div></div>');
        }
      }
 
@@ -540,7 +540,7 @@ use it, change the type of the subsnaplet from</p>
   <h1>Comments</h1>
   <div id="comments" aria-live="polite">
     <div id="header">
-      Want to leave a comment? Visit <a href="https://github.com/norm2782/norm2782.github.com/issues/1"> this post's issue page on GitHub</a> (you'll need a GitHub account.)
+      Want to leave a comment? Visit <a href="https://github.com/norm2782/norm2782.github.com/issues/1">this post's issue page on GitHub</a> (you'll need a GitHub account.)
     </div>
   </div>
 </section>
