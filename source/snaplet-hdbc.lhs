@@ -351,8 +351,8 @@ That's it! You can now write web applications, backed by an HDBC-supported
 database of your choosing.
 
 
-Using `resource-pool`
----------------------
+Using resource-pool
+-------------------
 
 The snaplet comes with support for the `resource-pool-catchio` (a
 `MonadCatchIO`-based port of `resource-pool`) package built-in. If you wish to
