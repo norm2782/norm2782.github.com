@@ -45,6 +45,29 @@ digestive &hellip;">
   </script>
 
 
+   <script type="text/javascript" src="http://datejs.googlecode.com/svn/trunk/build/date-en-GB.js"></script>
+   <script type="text/javascript" src="http://github.github.com/github-flavored-markdown/scripts/showdown.js"></script>
+   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+   <script type="text/javascript">
+     var converter = new Showdown.converter();
+
+     function loadComments(data) {  
+       for (var i=0; i<data.data.length; i++) {
+         var cuser = data.data[i].user.login;
+         var cuserlink = "https://www.github.com/" + data.data[i].user.login;
+         var clink = "https://github.com/izuzak/izuzak.github.com/issues/12#issuecomment-" + data.data[i].url.substring(data.data[i].url.lastIndexOf("/")+1);
+         var cbody = converter.makeHtml(data.data[i].body);
+         var cgravatarlink = data.data[i].user.gravatar_url.replace("s=30&", "");
+         var cdate = Date.parse(data.data[i].created_at).toString("yyyy-MM-dd HH:mm:ss");
+         $("#comments").append("<div class='comment'><div class='commentheader'><div class='commentgravatar'>" + '<img src="' + cgravatarlink + '" alt="" width="20" height="20">' + "</div><a class='commentuser' href=\""+ cuserlink + "\">" + cuser + "</a><a class='commentdate' href=\"" + clink + "\">" + cdate + "</a></div><div class='commentbody'>" + cbody + "</div></div>");
+       }
+     }
+
+     $.ajax("https://api.github.com/repos/izuzak/izuzak.github.com/issues/1/comments", {
+       dataType : "jsonp",
+       jsonpCallback : loadComments
+     });
+     </script>
 </head>
 
 <body   >
@@ -99,8 +122,6 @@ digestive &hellip;">
 
 
 <time datetime="2012-01-01T21:23:00+01:00" pubdate data-updated="true">Jan 1<span>st</span>, 2012</time>
-        
-         | <a href="#disqus_thread">Comments</a>
         
       </p>
     
@@ -453,11 +474,14 @@ you can enjoy the great <em>digestive-functors</em> library as-is.</p>
   </footer>
 </article>
 
-  <section>
-    <h1>Comments</h1>
-    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</div>
-  </section>
+<section>
+  <h1>Comments</h1>
+  <div id="comments" aria-live="polite">
+    <div id="header">
+      Want to leave a comment? Visit <a href="https://github.com/norm2782/norm2782.github.com/issues/1"> this post's issue page on GitHub</a> (you'll need a GitHub account.)
+    </div>
+  </div>
+</section>
 
 </div>
 
@@ -530,22 +554,6 @@ you can enjoy the great <em>digestive-functors</em> library as-is.</p>
 
 </footer>
   
-
-<script type="text/javascript">
-      var disqus_shortname = 'norm2782';
-      
-        
-        // var disqus_developer = 1;
-        var disqus_identifier = 'http://norm2782.github.com/blog/2012/01/01/using-digestive-functors-with-heist/';
-        var disqus_url = 'http://norm2782.github.com/blog/2012/01/01/using-digestive-functors-with-heist/';
-        var disqus_script = 'embed.js';
-      
-    (function () {
-      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    }());
-</script>
 
 
 
